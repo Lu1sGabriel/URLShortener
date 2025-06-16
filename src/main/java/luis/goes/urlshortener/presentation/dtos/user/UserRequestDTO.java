@@ -1,4 +1,6 @@
 package luis.goes.urlshortener.presentation.dtos.user;
 
-public record UserRequestDTO(String name) {
+import luis.goes.urlshortener.presentation.dtos.DTO;
+
+public record UserRequestDTO(String name) implements DTO {
 }
