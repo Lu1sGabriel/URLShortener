@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
+import luis.goes.urlshortener.domain.entity.Mappable;
 import luis.goes.urlshortener.domain.entity.url.URLEntity;
 
 import java.util.HashSet;
@@ -14,7 +15,7 @@ import java.util.UUID;
 @Table
 @Getter
 @Setter
-public class UserEntity {
+public class UserEntity implements Mappable {
 
     @Id
     @Setter(AccessLevel.NONE)
@@ -29,7 +30,10 @@ public class UserEntity {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private Set<URLEntity> urls = new HashSet<>();
 
+
     public UserEntity() {
+        this.id = UUID.randomUUID();
+        this.dateInfo = new UserDateInfo();
     }
 
     public UserEntity(String name) {
