@@ -1,28 +1,41 @@
 package luis.goes.urlshortener.domain.entity.user;
 
 import jakarta.persistence.*;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.Setter;
 import luis.goes.urlshortener.domain.entity.url.URLEntity;
 
-import java.time.Instant;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
-@Table
 @Entity(name = "user_db")
-public record UserEntity(
-        @Id UUID id,
-        @Column(name = "name", nullable = false) String name,
-        @Column(name = "created_at", nullable = false) Instant createdAt,
-        @Column(name = "updated_at", nullable = false) Instant updatedAt,
-        @Column(name = "deleted_at") Instant deletedAt,
-        @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
-        Set<URLEntity> urls
-) {
-    public UserEntity {
+@Table
+@Getter
+@Setter
+public class UserEntity {
+
+    @Id
+    @Setter(AccessLevel.NONE)
+    private UUID id;
+
+    @Column(name = "name", nullable = false)
+    private String name;
+
+    @Embedded
+    public UserDateInfo dateInfo;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    private Set<URLEntity> urls = new HashSet<>();
+
+    public UserEntity() {
     }
 
     public UserEntity(String name) {
-        this(UUID.randomUUID(), name, Instant.now(), Instant.now(), null, new HashSet<>());
+        this.id = UUID.randomUUID();
+        this.name = name;
+        this.dateInfo = new UserDateInfo();
     }
+
 }
