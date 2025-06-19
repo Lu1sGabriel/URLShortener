@@ -1,7 +1,6 @@
 package luis.goes.urlshortener.presentation.controllers.user;
 
-import luis.goes.urlshortener.application.useCases.user.create.IUserCreateUseCase;
-import luis.goes.urlshortener.application.useCases.user.deactivate.IUserDeactivateUseCase;
+import luis.goes.urlshortener.application.useCases.user.UserUseCases;
 import luis.goes.urlshortener.presentation.dtos.user.UserRequestDTO;
 import luis.goes.urlshortener.presentation.dtos.user.UserResponseDto;
 import org.springframework.http.ResponseEntity;
@@ -13,22 +12,20 @@ import java.util.UUID;
 @RequestMapping(value = "/api/v1/user")
 public class UserController {
 
-    private final IUserCreateUseCase userCreateUseCase;
-    private final IUserDeactivateUseCase userDeactivateUseCase;
+    private final UserUseCases userUseCases;
 
-    public UserController(IUserCreateUseCase userCreateUseCase, IUserDeactivateUseCase userDeactivateUseCase) {
-        this.userCreateUseCase = userCreateUseCase;
-        this.userDeactivateUseCase = userDeactivateUseCase;
+    public UserController(UserUseCases userUseCases) {
+        this.userUseCases = userUseCases;
     }
 
     @PostMapping
     public ResponseEntity<UserResponseDto> create(@RequestBody UserRequestDTO dto) {
-        return ResponseEntity.ok().body(userCreateUseCase.create(dto.name()));
+        return ResponseEntity.ok().body(userUseCases.getUserCreateUseCase().create(dto.name()));
     }
 
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<Void> deactivate(@PathVariable UUID id) {
-        userDeactivateUseCase.deactivate(id);
+        userUseCases.getUserDeactivateUseCase().deactivate(id);
         return ResponseEntity.noContent().build();
     }
 
