@@ -23,7 +23,7 @@ public final class UserMapper implements IMapper<UserRequestDTO, UserResponseDto
     public UserResponseDto toDto(UserEntity userEntity) {
         return new UserResponseDto(
                 userEntity.getId(),
-                userEntity.getName(),
+                userEntity.getName().name(),
                 userEntity.getDateInfo().getCreatedAt(),
                 userEntity.getDateInfo().getUpdatedAt()
         );

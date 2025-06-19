@@ -1,6 +1,6 @@
 package luis.goes.urlshortener.name;
 
-import luis.goes.urlshortener.shared.types.Name;
+import luis.goes.urlshortener.domain.types.Name;
 import org.hamcrest.CoreMatchers;
 import org.junit.jupiter.api.Test;
 

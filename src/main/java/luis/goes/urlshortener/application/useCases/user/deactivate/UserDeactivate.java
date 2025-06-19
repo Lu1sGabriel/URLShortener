@@ -20,4 +20,5 @@ public class UserDeactivate implements IUserDeactivateUseCase {
         user.dateInfo.deactivate();
         repository.save(user);
     }
+
 }

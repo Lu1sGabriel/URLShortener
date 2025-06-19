@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.Setter;
 import luis.goes.urlshortener.domain.entity.Mappable;
 import luis.goes.urlshortener.domain.entity.url.URLEntity;
+import luis.goes.urlshortener.domain.types.Name;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -22,14 +23,14 @@ public class UserEntity implements Mappable {
     private UUID id;
 
     @Column(name = "name", nullable = false)
-    private String name;
+    @Embedded
+    private Name name;
 
     @Embedded
     public UserDateInfo dateInfo;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private Set<URLEntity> urls = new HashSet<>();
-
 
     public UserEntity() {
         this.id = UUID.randomUUID();
@@ -38,8 +39,12 @@ public class UserEntity implements Mappable {
 
     public UserEntity(String name) {
         this.id = UUID.randomUUID();
-        this.name = name;
+        this.name = new Name(name);
         this.dateInfo = new UserDateInfo();
+    }
+
+    public void setName(String name) {
+        this.name = new Name(name);
     }
 
 }

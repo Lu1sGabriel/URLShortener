@@ -1,6 +1,7 @@
-package luis.goes.urlshortener.shared.types;
+package luis.goes.urlshortener.domain.types;
 
 import jakarta.persistence.Embeddable;
+import luis.goes.urlshortener.presentation.exception.ApiException;
 
 import java.util.regex.Pattern;
 
@@ -17,7 +18,7 @@ public record Name(String name) {
         if (REGEX.matcher(name).matches()) {
             return name;
         }
-        throw new IllegalArgumentException("Name must contain only letters and spaces (2–60 characters).");
+        throw new ApiException.BadRequest("Name must contain only letters and spaces (2–60 characters).");
     }
 
 }
