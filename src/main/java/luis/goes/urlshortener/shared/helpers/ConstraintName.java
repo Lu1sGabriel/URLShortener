@@ -1,5 +1,8 @@
 package luis.goes.urlshortener.shared.helpers;
 
+import lombok.Getter;
+
+@Getter
 public enum ConstraintName {
     UK_USER_NAME("uk_user_name", "name"),
     UK_USER_MAIL("uk_user_email", "email");
@@ -12,11 +15,4 @@ public enum ConstraintName {
         this.field = field;
     }
 
-    public String getConstraint() {
-        return constraint;
-    }
-
-    public String getField() {
-        return field;
-    }
 }
