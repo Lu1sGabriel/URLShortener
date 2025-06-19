@@ -26,10 +26,4 @@ public enum StatusCode {
         return code;
     }
 
-    public static StatusCode fromCode(int code) {
-        for (StatusCode status : values()) {
-            if (status.code == code) return status;
-        }
-        throw new IllegalArgumentException("Unknown HTTP status code: " + code);
-    }
 }
