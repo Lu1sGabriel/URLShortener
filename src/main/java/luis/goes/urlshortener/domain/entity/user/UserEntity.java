@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.Setter;
 import luis.goes.urlshortener.domain.entity.Mappable;
 import luis.goes.urlshortener.domain.entity.url.URLEntity;
+import luis.goes.urlshortener.domain.types.Email;
 import luis.goes.urlshortener.domain.types.Name;
 
 import java.util.HashSet;
@@ -13,7 +14,13 @@ import java.util.Set;
 import java.util.UUID;
 
 @Entity(name = "user_db")
-@Table
+@Table(
+        name = "user_db",
+        uniqueConstraints = {
+                @UniqueConstraint(name = "uk_user_name", columnNames = {"name"}),
+                @UniqueConstraint(name = "uk_user_email", columnNames = {"email"})
+        }
+)
 @Getter
 @Setter
 public class UserEntity implements Mappable {
@@ -22,9 +29,13 @@ public class UserEntity implements Mappable {
     @Setter(AccessLevel.NONE)
     private UUID id;
 
-    @Column(name = "name", nullable = false)
     @Embedded
+    @AttributeOverride(name = "name", column = @Column(name = "name", nullable = false, unique = true))
     private Name name;
+
+    @Embedded
+    @AttributeOverride(name = "email", column = @Column(name = "email", nullable = false, unique = true))
+    private Email email;
 
     @Embedded
     public UserDateInfo dateInfo;
@@ -37,14 +48,19 @@ public class UserEntity implements Mappable {
         this.dateInfo = new UserDateInfo();
     }
 
-    public UserEntity(String name) {
+    public UserEntity(String name, String email) {
         this.id = UUID.randomUUID();
         this.name = new Name(name);
+        this.email = new Email(email);
         this.dateInfo = new UserDateInfo();
     }
 
     public void setName(String name) {
         this.name = new Name(name);
+    }
+
+    public void setEmail(String email) {
+        this.email = new Email(email);
     }
 
 }

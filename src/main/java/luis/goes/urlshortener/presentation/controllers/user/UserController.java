@@ -20,7 +20,7 @@ public class UserController {
 
     @PostMapping
     public ResponseEntity<UserResponseDto> create(@RequestBody UserRequestDTO dto) {
-        return ResponseEntity.ok().body(userUseCases.getUserCreateUseCase().create(dto.name()));
+        return ResponseEntity.ok().body(userUseCases.getUserCreateUseCase().create(dto.name(), dto.email()));
     }
 
     @DeleteMapping(value = "/{id}")

@@ -18,12 +18,12 @@ public class UserCreate implements IUserCreateUseCase {
     }
 
     @Override
-    public final UserResponseDto create(String name) {
+    public final UserResponseDto create(String name, String email) {
         if (name == null) {
             return null;
         }
 
-        UserEntity user = new UserEntity(name);
+        UserEntity user = new UserEntity(name, email);
 
         repository.save(user);
 

@@ -26,4 +26,5 @@ public class NameTest {
 
         assertThat(exception.getMessage(), CoreMatchers.containsString("Name must contain only letters and spaces"));
     }
+
 }

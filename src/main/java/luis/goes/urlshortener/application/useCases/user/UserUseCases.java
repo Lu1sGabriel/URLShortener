@@ -10,8 +10,7 @@ public class UserUseCases {
     private final IUserCreateUseCase userCreateUseCase;
     private final IUserDeactivateUseCase userDeactivateUseCase;
 
-    public UserUseCases(IUserCreateUseCase userCreateUseCase,
-                        IUserDeactivateUseCase userDeactivateUseCase) {
+    public UserUseCases(IUserCreateUseCase userCreateUseCase, IUserDeactivateUseCase userDeactivateUseCase) {
         this.userCreateUseCase = userCreateUseCase;
         this.userDeactivateUseCase = userDeactivateUseCase;
     }
@@ -23,4 +22,5 @@ public class UserUseCases {
     public IUserDeactivateUseCase getUserDeactivateUseCase() {
         return userDeactivateUseCase;
     }
+
 }

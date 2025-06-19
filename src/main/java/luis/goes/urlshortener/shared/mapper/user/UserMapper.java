@@ -16,6 +16,7 @@ public final class UserMapper implements IMapper<UserRequestDTO, UserResponseDto
     public UserEntity toEntity(UserRequestDTO dto) {
         UserEntity user = new UserEntity();
         user.setName(dto.name());
+        user.setEmail(dto.email());
         return user;
     }
 
@@ -24,6 +25,7 @@ public final class UserMapper implements IMapper<UserRequestDTO, UserResponseDto
         return new UserResponseDto(
                 userEntity.getId(),
                 userEntity.getName().name(),
+                userEntity.getEmail().email(),
                 userEntity.getDateInfo().getCreatedAt(),
                 userEntity.getDateInfo().getUpdatedAt()
         );
