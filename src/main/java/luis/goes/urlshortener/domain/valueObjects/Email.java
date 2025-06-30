@@ -2,7 +2,7 @@ package luis.goes.urlshortener.domain.valueObjects;
 
 import io.micrometer.common.util.StringUtils;
 import jakarta.persistence.Embeddable;
-import luis.goes.urlshortener.presentation.exception.ApiException;
+import luis.goes.urlshortener.presentation.exception.HttpException;
 
 import java.util.regex.Pattern;
 
@@ -20,11 +20,11 @@ public record Email(String email) {
     }
 
     private String validate(String email) {
-        if (email == null) throw new ApiException.BadRequest("Email must not be null.");
+        if (email == null) throw HttpException.badRequest("Email must not be null.");
 
-        if (StringUtils.isBlank(email)) throw new ApiException.BadRequest("Email must no be blank");
+        if (StringUtils.isBlank(email)) throw HttpException.badRequest("Email must no be blank");
 
-        if (!REGEX.matcher(email).matches()) throw new ApiException.BadRequest("Email invalid.");
+        if (!REGEX.matcher(email).matches()) throw HttpException.badRequest("Email invalid.");
 
         return email;
     }

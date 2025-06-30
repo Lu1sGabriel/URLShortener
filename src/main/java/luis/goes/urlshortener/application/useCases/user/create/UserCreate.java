@@ -21,8 +21,6 @@ public class UserCreate implements IUserCreateUseCase {
     public final UserResponseDto create(String name, String email, String password) {
         UserEntity user = new UserEntity(name, email, password);
 
-        repository.save(user);
-
         return mapper.toDto(repository.save(user));
     }
 

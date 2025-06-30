@@ -17,16 +17,19 @@ public class GlobalExceptionHandler {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(GlobalExceptionHandler.class);
 
-    @ExceptionHandler(ApiException.HttpException.class)
-    public ResponseEntity<ErrorResponse> handleHttpException(ApiException.HttpException ex) {
+    @ExceptionHandler(HttpException.class)
+    public ResponseEntity<ErrorResponse> handleApiException(HttpException ex) {
         LOGGER.warn("Handled API exception: {}", ex.getMessage());
         ErrorResponse error = new ErrorResponse(ex.getMessage(), ex.getStatusCode());
         return ResponseEntity.status(ex.getStatusCode()).body(error);
     }
 
     @ExceptionHandler(DataIntegrityViolationException.class)
-    public ResponseEntity<ErrorResponse> handleUniqueConstrainViolationKeys(Exception ex) {
-        String constraintName = ((ConstraintViolationException) ex.getCause()).getConstraintName();
+    public ResponseEntity<ErrorResponse> handleUniqueConstraintViolation(DataIntegrityViolationException ex) {
+        String constraintName = null;
+        if (ex.getCause() instanceof ConstraintViolationException cve) {
+            constraintName = cve.getConstraintName();
+        }
 
         String fieldName = ConstraintNameMapper.getFieldName(constraintName);
 
@@ -39,7 +42,6 @@ public class GlobalExceptionHandler {
 
         return ResponseEntity.status(error.statusCode()).body(error);
     }
-
 
     @ExceptionHandler(PropertyValueException.class)
     public ResponseEntity<ErrorResponse> handleNullableException(PropertyValueException ex) {
@@ -71,11 +73,12 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorResponse> handleGenericException(Exception ex) {
         LOGGER.error("Unhandled exception caught", ex);
+
         ErrorResponse error = new ErrorResponse(
                 "Internal server error. That's not your fault!",
                 StatusCode.INTERNAL_SERVER_ERROR
         );
+
         return ResponseEntity.status(error.statusCode()).body(error);
     }
-
 }

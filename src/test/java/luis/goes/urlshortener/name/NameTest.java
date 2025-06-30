@@ -1,7 +1,7 @@
 package luis.goes.urlshortener.name;
 
 import luis.goes.urlshortener.domain.valueObjects.Name;
-import luis.goes.urlshortener.presentation.exception.ApiException;
+import luis.goes.urlshortener.presentation.exception.HttpException;
 import org.hamcrest.CoreMatchers;
 import org.junit.jupiter.api.Test;
 
@@ -22,7 +22,7 @@ public class NameTest {
     void shouldThrowExceptionForInvalidName() {
         final String invalidName = "Luis123!";
 
-        Exception exception = assertThrows(ApiException.BadRequest.class, () -> new Name(invalidName));
+        Exception exception = assertThrows(HttpException.class, () -> new Name(invalidName));
 
         assertThat(exception.getMessage(), CoreMatchers.containsString("Name must contain only letters and spaces"));
     }

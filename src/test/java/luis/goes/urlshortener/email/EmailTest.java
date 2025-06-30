@@ -1,7 +1,7 @@
 package luis.goes.urlshortener.email;
 
 import luis.goes.urlshortener.domain.valueObjects.Email;
-import luis.goes.urlshortener.presentation.exception.ApiException;
+import luis.goes.urlshortener.presentation.exception.HttpException;
 import org.hamcrest.CoreMatchers;
 import org.junit.jupiter.api.Test;
 
@@ -19,18 +19,14 @@ public class EmailTest {
 
     @Test
     void shouldThrowExceptionForNullableEmail() {
-        Exception exception = assertThrows(ApiException.BadRequest.class, () -> new Email(null));
-
+        Exception exception = assertThrows(HttpException.class, () -> new Email(null));
         assertThat(exception.getMessage(), CoreMatchers.containsString("Email must not be null."));
     }
 
     @Test
     void shouldThrowExceptionForInvalidEmail() {
         final String invalidEmail = "email.com";
-
-        Exception exception = assertThrows(ApiException.BadRequest.class, () -> new Email(invalidEmail));
-
+        Exception exception = assertThrows(HttpException.class, () -> new Email(invalidEmail));
         assertThat(exception.getMessage(), CoreMatchers.containsString("Email invalid"));
     }
-
 }

@@ -1,7 +1,7 @@
 package luis.goes.urlshortener.password;
 
 import luis.goes.urlshortener.domain.valueObjects.Password;
-import luis.goes.urlshortener.presentation.exception.ApiException;
+import luis.goes.urlshortener.presentation.exception.HttpException;
 import org.hamcrest.CoreMatchers;
 import org.junit.jupiter.api.Test;
 
@@ -22,21 +22,21 @@ public class PasswordTest {
     @Test
     public void shouldThrowExceptionForInvalidPassword() {
         final String invalidPassword = "senhaInvalida";
-        Exception exception = assertThrows(ApiException.BadRequest.class, () -> new Password(invalidPassword));
+        Exception exception = assertThrows(HttpException.class, () -> new Password(invalidPassword));
         assertThat(exception.getMessage(), CoreMatchers.containsString("Password must contain at least one uppercase letter"));
     }
 
     @Test
     public void shouldThrowExceptionForInvalidPasswordLength() {
         final String invalidPassword = "curto";
-        Exception exception = assertThrows(ApiException.BadRequest.class, () -> new Password(invalidPassword));
+        Exception exception = assertThrows(HttpException.class, () -> new Password(invalidPassword));
         assertThat(exception.getMessage(), CoreMatchers.containsString("Password must be at least 8 characters long."));
     }
 
     @Test
     public void shouldThrowExceptionForInvalidPasswordThatContainsÇ() {
         final String invalidPassword = "@Senha123Ç";
-        Exception exception = assertThrows(ApiException.BadRequest.class, () -> new Password(invalidPassword));
+        Exception exception = assertThrows(HttpException.class, () -> new Password(invalidPassword));
         assertThat(exception.getMessage(), CoreMatchers.containsString("Password cannot contain the character 'ç' or 'Ç'."));
     }
 

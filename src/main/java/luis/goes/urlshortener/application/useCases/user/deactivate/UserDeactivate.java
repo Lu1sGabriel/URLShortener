@@ -16,7 +16,7 @@ public class UserDeactivate implements IUserDeactivateUseCase {
 
     @Override
     public void deactivate(UUID id) {
-        var user = repository.findById(id).orElseThrow(() -> new EntityNotFoundException("User not found"));
+        var user = repository.findById(id).orElseThrow(() -> new EntityNotFoundException("User not found."));
         user.dateInfo.deactivate();
         repository.save(user);
     }

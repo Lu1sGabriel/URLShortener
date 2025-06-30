@@ -3,6 +3,7 @@ package luis.goes.urlshortener.domain.entity.user;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import luis.goes.urlshortener.domain.entity.Mappable;
 import luis.goes.urlshortener.domain.entity.url.URLEntity;
@@ -20,6 +21,7 @@ import java.util.UUID;
                 @UniqueConstraint(name = "uk_user_email", columnNames = {"email"})
         }
 )
+@NoArgsConstructor
 @Getter
 @Setter
 public class UserEntity implements Mappable {
@@ -40,11 +42,6 @@ public class UserEntity implements Mappable {
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private Set<URLEntity> urls = new HashSet<>();
-
-    public UserEntity() {
-        this.id = UUID.randomUUID();
-        this.dateInfo = new UserDateInfo();
-    }
 
     public UserEntity(String name, String email, String password) {
         this.id = UUID.randomUUID();
