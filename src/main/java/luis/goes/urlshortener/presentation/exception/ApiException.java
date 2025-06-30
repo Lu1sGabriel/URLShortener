@@ -1,6 +1,6 @@
 package luis.goes.urlshortener.presentation.exception;
 
-import luis.goes.urlshortener.shared.helpers.StatusCode;
+import luis.goes.urlshortener.shared.helpers.statusCode.StatusCode;
 
 public class ApiException {
 

@@ -1,7 +1,7 @@
 package luis.goes.urlshortener.presentation.exception;
 
-import luis.goes.urlshortener.shared.helpers.ConstraintNameMapper;
-import luis.goes.urlshortener.shared.helpers.StatusCode;
+import luis.goes.urlshortener.shared.helpers.constraintName.ConstraintNameMapper;
+import luis.goes.urlshortener.shared.helpers.statusCode.StatusCode;
 import org.hibernate.PropertyValueException;
 import org.hibernate.exception.ConstraintViolationException;
 import org.slf4j.Logger;

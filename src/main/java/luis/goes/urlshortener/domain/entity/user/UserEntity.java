@@ -6,8 +6,7 @@ import lombok.Getter;
 import lombok.Setter;
 import luis.goes.urlshortener.domain.entity.Mappable;
 import luis.goes.urlshortener.domain.entity.url.URLEntity;
-import luis.goes.urlshortener.domain.types.Email;
-import luis.goes.urlshortener.domain.types.Name;
+import luis.goes.urlshortener.domain.valueObjects.Name;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -34,8 +33,7 @@ public class UserEntity implements Mappable {
     private Name name;
 
     @Embedded
-    @AttributeOverride(name = "email", column = @Column(name = "email", nullable = false, unique = true))
-    private Email email;
+    private UserCredentials userCredentials;
 
     @Embedded
     public UserDateInfo dateInfo;
@@ -48,10 +46,10 @@ public class UserEntity implements Mappable {
         this.dateInfo = new UserDateInfo();
     }
 
-    public UserEntity(String name, String email) {
+    public UserEntity(String name, String email, String password) {
         this.id = UUID.randomUUID();
         this.name = new Name(name);
-        this.email = new Email(email);
+        this.userCredentials = new UserCredentials(email, password);
         this.dateInfo = new UserDateInfo();
     }
 
@@ -59,8 +57,8 @@ public class UserEntity implements Mappable {
         this.name = new Name(name);
     }
 
-    public void setEmail(String email) {
-        this.email = new Email(email);
+    public void setUserCredentials(String email, String password) {
+        this.userCredentials = new UserCredentials(email, password);
     }
 
 }

@@ -1,7 +1,7 @@
 package luis.goes.urlshortener.shared.utils;
 
 import jakarta.annotation.PostConstruct;
-import luis.goes.urlshortener.shared.helpers.ConstraintName;
+import luis.goes.urlshortener.shared.helpers.constraintName.ConstraintName;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;

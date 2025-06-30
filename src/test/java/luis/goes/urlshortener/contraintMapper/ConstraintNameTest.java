@@ -5,7 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import luis.goes.urlshortener.shared.helpers.ConstraintName;
+import luis.goes.urlshortener.shared.helpers.constraintName.ConstraintName;
 import org.junit.jupiter.api.Test;
 
 public class ConstraintNameTest {

@@ -1,5 +1,6 @@
-package luis.goes.urlshortener.domain.types;
+package luis.goes.urlshortener.domain.valueObjects;
 
+import io.micrometer.common.util.StringUtils;
 import jakarta.persistence.Embeddable;
 import luis.goes.urlshortener.presentation.exception.ApiException;
 
@@ -14,18 +15,18 @@ public record Email(String email) {
                     "[a-zA-Z]{2,}$"
     );
 
-    public Email(String email) {
-        this.email = validate(email);
+    public Email {
+        email = validate(email);
     }
 
     private String validate(String email) {
-        if (email == null) {
-            throw new ApiException.BadRequest("Email cannot be null.");
-        }
-        if (REGEX.matcher(email).matches()) {
-            return email;
-        }
-        throw new ApiException.BadRequest("Email invalid.");
+        if (email == null) throw new ApiException.BadRequest("Email must not be null.");
+
+        if (StringUtils.isBlank(email)) throw new ApiException.BadRequest("Email must no be blank");
+
+        if (!REGEX.matcher(email).matches()) throw new ApiException.BadRequest("Email invalid.");
+
+        return email;
     }
 
 }

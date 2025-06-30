@@ -26,6 +26,10 @@ public class UserDateInfo {
         this.updatedAt = Instant.now();
     }
 
+    public void update() {
+        this.updatedAt = Instant.now();
+    }
+
     public void deactivate() {
         this.deletedAt = Instant.now();
     }

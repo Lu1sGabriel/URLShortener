@@ -1,4 +1,4 @@
-package luis.goes.urlshortener.shared.helpers;
+package luis.goes.urlshortener.shared.helpers.constraintName;
 
 import lombok.Getter;
 
