@@ -20,7 +20,6 @@ public class UserController {
 
     @PostMapping
     public ResponseEntity<UserResponseDto> create(@RequestBody UserRequestDTO dto) {
-        System.out.println(dto);
         return ResponseEntity.ok().body(userUseCases.getUserCreateUseCase().create(dto.name(), dto.email(), dto.password()));
     }
 
