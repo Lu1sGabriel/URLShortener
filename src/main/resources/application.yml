@@ -10,6 +10,9 @@ spring:
       ddl-auto: update
     show-sql: true
 
+  profiles:
+    active: dev
+
   jackson:
     time-zone: America/Sao_Paulo
 

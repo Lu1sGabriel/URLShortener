@@ -14,7 +14,7 @@ public class EmailTest {
     void shouldCreateValidFullName() {
         final String validEmail = "email@example.com";
         Email email = new Email(validEmail);
-        assertEquals(validEmail, email.email());
+        assertEquals(validEmail, email.getValue());
     }
 
     @Test

@@ -14,18 +14,15 @@ public final class UserMapper implements IMapper<UserRequestDTO, UserResponseDto
 
     @Override
     public UserEntity toEntity(UserRequestDTO dto) {
-        UserEntity user = new UserEntity();
-        user.setName(dto.name());
-        user.setUserCredentials(dto.email(), dto.password());
-        return user;
+        return new UserEntity(dto.name(), dto.email(), dto.password());
     }
 
     @Override
     public UserResponseDto toDto(UserEntity userEntity) {
         return new UserResponseDto(
                 userEntity.getId(),
-                userEntity.getName().name(),
-                userEntity.getUserCredentials().getEmail().email(),
+                userEntity.getName().getValue(),
+                userEntity.getUserCredentials().getEmail().getValue(),
                 userEntity.getDateInfo().getCreatedAt(),
                 userEntity.getDateInfo().getUpdatedAt()
         );

@@ -15,7 +15,7 @@ public class PasswordTest {
     public void shouldCreateValidPassword() {
         final String validPassword = "@Senha123";
         Password password = new Password(validPassword);
-        assertEquals(validPassword, password.password());
+        assertEquals(validPassword, password.getValue());
 
     }
 

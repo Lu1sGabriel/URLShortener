@@ -15,7 +15,7 @@ public class NameTest {
     void shouldCreateValidFullName() {
         final String fullName = "Luis Gabriel Goés de Santana";
         Name name = new Name(fullName);
-        assertEquals(fullName, name.name());
+        assertEquals(fullName, name.getValue());
     }
 
     @Test
