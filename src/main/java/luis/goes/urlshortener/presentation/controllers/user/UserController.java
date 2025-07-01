@@ -1,6 +1,7 @@
 package luis.goes.urlshortener.presentation.controllers.user;
 
 import luis.goes.urlshortener.application.useCases.user.UserUseCases;
+import luis.goes.urlshortener.presentation.dtos.user.UserChangePasswordDTO;
 import luis.goes.urlshortener.presentation.dtos.user.UserRequestDTO;
 import luis.goes.urlshortener.presentation.dtos.user.UserResponseDto;
 import org.springframework.http.ResponseEntity;
@@ -21,6 +22,11 @@ public class UserController {
     @PostMapping
     public ResponseEntity<UserResponseDto> create(@RequestBody UserRequestDTO dto) {
         return ResponseEntity.ok().body(userUseCases.getUserCreateUseCase().create(dto.name(), dto.email(), dto.password()));
+    }
+
+    @PatchMapping(value = "/password/{id}")
+    public ResponseEntity<UserResponseDto> changePassword(@PathVariable UUID id, @RequestBody UserChangePasswordDTO dto) {
+        return ResponseEntity.ok().body(userUseCases.getUserChangePasswordUseCase().change(id, dto));
     }
 
     @DeleteMapping(value = "/{id}")

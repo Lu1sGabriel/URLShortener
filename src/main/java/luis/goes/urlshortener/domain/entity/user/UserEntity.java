@@ -23,7 +23,6 @@ import java.util.UUID;
 )
 @NoArgsConstructor
 @Getter
-@Setter
 public class UserEntity implements Mappable {
 
     @Id
@@ -50,12 +49,16 @@ public class UserEntity implements Mappable {
         this.dateInfo = new UserDateInfo();
     }
 
-    public void setName(String name) {
-        this.name = new Name(name);
+    public void changeName(String name) {
+        this.name.change(name);
     }
 
-    public void setUserCredentials(String email, String password) {
-        this.userCredentials = new UserCredentials(email, password);
+    public void changeUserEmail(String email) {
+        this.userCredentials.getEmail().change(email);
+    }
+
+    public void changeUserPassword(String password) {
+        this.userCredentials.getPassword().change(password);
     }
 
 }

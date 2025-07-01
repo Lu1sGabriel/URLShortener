@@ -21,24 +21,26 @@ public final class Email {
                     "[a-zA-Z]{2,}$"
     );
 
-    public Email (String email){
+    public Email(String email) {
         this.email = validate(email);
     }
 
     private String validate(String email) {
-        System.out.println("Entrou no email");
-
         if (email == null) throw HttpException.badRequest("Email must not be null.");
 
         if (StringUtils.isBlank(email)) throw HttpException.badRequest("Email must no be blank");
 
-        if (!REGEX.matcher(email).matches()) throw HttpException.badRequest("Email invalid.");
+        if (!REGEX.matcher(email).matches()) throw HttpException.badRequest("Invalid email address format.");
 
         return email;
     }
 
     public String getValue() {
         return email;
+    }
+
+    public void change(String email) {
+        this.email = validate(email);
     }
 
 }

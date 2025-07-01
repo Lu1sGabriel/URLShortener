@@ -5,7 +5,7 @@ import jakarta.persistence.Embeddable;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import luis.goes.urlshortener.presentation.exception.HttpException;
-import luis.goes.urlshortener.shared.utils.PasswordHashUtil;
+import luis.goes.urlshortener.shared.helpers.password.PasswordHashMapper;
 
 import java.util.regex.Pattern;
 
@@ -15,38 +15,43 @@ import java.util.regex.Pattern;
 public final class Password {
 
     private static final Pattern REGEX = Pattern.compile(
-            "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[^\\w\\sÇç])[\\S]*$"
+            "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[^\\w\\sÇç])\\S+$"
     );
+
+    private static PasswordHashMapper hashUtil;
 
     private String password;
 
     public Password(String rawPassword) {
-        this.password = hashPasswordAfterValidation(rawPassword);
+        this.password = hash(validate(rawPassword));
     }
 
-    private String hashPasswordAfterValidation(String password) {
-        return PasswordHashUtil.hash(validate(password));
+    private static String hash(String password) {
+        if (hashUtil == null) throw new IllegalStateException("PasswordHashUtil has not been initialized.");
+        return hashUtil.hash(password);
     }
 
-    private String validate(String password) {
-        System.out.println("Entrou na senha");
+    private static String validate(String password) {
+        if (password == null) throw HttpException.badRequest("Password must not be null.");
 
-        if (password == null)
-            throw HttpException.badRequest("Password must not be null.");
+        if (StringUtils.isBlank(password)) throw HttpException.badRequest("Password must not be blank.");
 
-        if (StringUtils.isBlank(password))
-            throw HttpException.badRequest("Password must not be blank.");
+        if (password.length() < 8) throw HttpException.badRequest("Password must be at least 8 characters long.");
 
-        if (password.length() < 8)
-            throw HttpException.badRequest("Password must be at least 8 characters long.");
+        if (password.toLowerCase().contains("ç")) throw HttpException.badRequest("Password cannot contain the character 'ç' or 'Ç'.");
 
-        if (password.toLowerCase().contains("ç"))
-            throw HttpException.badRequest("Password cannot contain the character 'ç' or 'Ç'.");
-
-        if (!REGEX.matcher(password).matches())
-            throw HttpException.badRequest("Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character.");
+        if (!REGEX.matcher(password).matches()) throw HttpException.badRequest("Password must have uppercase, lowercase, number, and special character.");
 
         return password;
+    }
+
+    public static void injectHasher(PasswordHashMapper util) {
+        if (Password.hashUtil != null) throw new IllegalStateException("PasswordHashUtil has already been set.");
+        Password.hashUtil = util;
+    }
+
+    public void change(String newPassword) {
+        this.password = hash(validate(newPassword));
     }
 
     public String getValue() {

@@ -18,26 +18,28 @@ public class Name {
             "^[a-zà-öø-ÿ\\s]+$", Pattern.CASE_INSENSITIVE
     );
 
-    public Name (String name){
+    public Name(String name) {
         this.name = validate(name);
     }
 
     private String validate(String name) {
-        System.out.println("Entrou no nome");
-
         if (name == null) throw HttpException.badRequest("Name is required.");
 
-        if (StringUtils.isBlank(name)) throw HttpException.badRequest("Name cannot be blank.");
+        if (StringUtils.isBlank(name)) throw HttpException.badRequest("Name cannot be empty or whitespace.");
 
-        if (name.length() < 2) throw HttpException.badRequest("Name must have 2 or more characters.");
+        if (name.length() < 2) throw HttpException.badRequest("Name must be at least 2 characters long.");
 
-        if (!REGEX.matcher(name).matches()) throw HttpException.badRequest("Invalid name.");
+        if (!REGEX.matcher(name).matches()) throw HttpException.badRequest("Name can only contain letters and spaces.");
 
         return NameFormatter.format(name);
     }
 
     public String getValue() {
         return name;
+    }
+
+    public void change(String name) {
+        this.name = validate(name);
     }
 
 }
