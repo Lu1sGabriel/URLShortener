@@ -8,6 +8,7 @@ import lombok.Setter;
 import luis.goes.urlshortener.domain.entity.Mappable;
 import luis.goes.urlshortener.domain.entity.url.URLEntity;
 import luis.goes.urlshortener.domain.valueObjects.Name;
+import luis.goes.urlshortener.presentation.exception.HttpException;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -50,15 +51,23 @@ public class UserEntity implements Mappable {
     }
 
     public void changeName(String name) {
-        this.name.change(name);
+        this.name = new Name(name);
+        this.getDateInfo().update();
     }
 
-    public void changeUserEmail(String email) {
-        this.userCredentials.getEmail().change(email);
+    public void changeEmail(String email) {
+        this.userCredentials.changeEmail(email);
+        this.getDateInfo().update();
     }
 
-    public void changeUserPassword(String password) {
-        this.userCredentials.getPassword().change(password);
+    public void changePassword(String newPassword, String confirmedPassword) {
+        if (!newPassword.equals(confirmedPassword)) throw HttpException.badRequest("Password are not equals");
+        this.userCredentials.changePassword(newPassword);
+        this.getDateInfo().update();
+    }
+
+    public void isPasswordMatches(String encodedPassword, String rawPassword) {
+        this.userCredentials.getPassword().isPasswordMatches(encodedPassword, rawPassword);
     }
 
 }

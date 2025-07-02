@@ -8,6 +8,7 @@ import lombok.Setter;
 import luis.goes.urlshortener.domain.valueObjects.Email;
 import luis.goes.urlshortener.domain.valueObjects.Password;
 
+
 @Embeddable
 @NoArgsConstructor
 @Getter

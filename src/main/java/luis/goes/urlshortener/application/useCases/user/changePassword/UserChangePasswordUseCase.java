@@ -23,9 +23,9 @@ public class UserChangePasswordUseCase implements IUserChangePasswordUseCase {
     @Override
     public UserResponseDto change(UUID id, UserChangePasswordDTO dto) {
         if (id == null) throw HttpException.badRequest("ID must not be null");
-        if (!dto.password().equals(dto.confirmPassword())) throw HttpException.badRequest("Password and confirm password do not match.");
         UserEntity user = repository.findById(id).orElseThrow(() -> HttpException.notFound("User not found with ID"));
-        user.changeUserPassword(dto.password());
+        user.isPasswordMatches(user.getUserCredentials().getPassword().getValue(), dto.currentPassword());
+        user.changePassword(dto.password(), dto.confirmPassword());
         var changed = repository.save(user);
         return mapper.toDto(changed);
     }

@@ -39,8 +39,4 @@ public final class Email {
         return email;
     }
 
-    public void change(String email) {
-        this.email = validate(email);
-    }
-
 }

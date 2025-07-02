@@ -50,8 +50,9 @@ public final class Password {
         Password.hashUtil = util;
     }
 
-    public void change(String newPassword) {
-        this.password = hash(validate(newPassword));
+    public void isPasswordMatches(String encodedPassword, String rawPassword) {
+        boolean matches = hashUtil.matches(rawPassword, encodedPassword);
+        if (!matches) throw HttpException.badRequest("Current password is incorrect.");
     }
 
     public String getValue() {
@@ -62,5 +63,6 @@ public final class Password {
     public String toString() {
         return "[PROTECTED]";
     }
+
 
 }

@@ -38,8 +38,4 @@ public class Name {
         return name;
     }
 
-    public void change(String name) {
-        this.name = validate(name);
-    }
-
 }
