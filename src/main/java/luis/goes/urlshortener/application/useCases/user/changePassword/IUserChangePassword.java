@@ -5,7 +5,7 @@ import luis.goes.urlshortener.presentation.dtos.user.UserResponseDto;
 
 import java.util.UUID;
 
-public interface IUserChangePasswordUseCase {
+public interface IUserChangePassword {
 
     UserResponseDto change(UUID id, UserChangePasswordDTO dto);
 

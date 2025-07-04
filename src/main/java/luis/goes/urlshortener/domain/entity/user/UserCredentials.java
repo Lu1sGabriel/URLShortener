@@ -1,24 +1,22 @@
 package luis.goes.urlshortener.domain.entity.user;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Embeddable;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
-import luis.goes.urlshortener.domain.valueObjects.Email;
-import luis.goes.urlshortener.domain.valueObjects.Password;
-
+import luis.goes.urlshortener.domain.entity.role.RoleEntity;
+import luis.goes.urlshortener.domain.valueObject.Email;
+import luis.goes.urlshortener.domain.valueObject.Password;
 
 @Embeddable
 @NoArgsConstructor
 @Getter
-@Setter
 public class UserCredentials {
     @Column(name = "email", nullable = false, unique = true)
     private Email email;
 
     @Column(name = "password", nullable = false)
     private Password password;
+
 
     public UserCredentials(String email, String password) {
         this.email = new Email(email);

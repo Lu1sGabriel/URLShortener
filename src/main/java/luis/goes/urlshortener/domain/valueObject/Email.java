@@ -1,4 +1,4 @@
-package luis.goes.urlshortener.domain.valueObjects;
+package luis.goes.urlshortener.domain.valueObject;
 
 import io.micrometer.common.util.StringUtils;
 import jakarta.persistence.Embeddable;
@@ -32,7 +32,7 @@ public final class Email {
 
         if (!REGEX.matcher(email).matches()) throw HttpException.badRequest("Invalid email address format.");
 
-        return email;
+        return email.trim();
     }
 
     public String getValue() {

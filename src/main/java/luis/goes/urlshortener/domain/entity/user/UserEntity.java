@@ -6,8 +6,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import luis.goes.urlshortener.domain.entity.Mappable;
+import luis.goes.urlshortener.domain.entity.role.RoleEntity;
 import luis.goes.urlshortener.domain.entity.url.URLEntity;
-import luis.goes.urlshortener.domain.valueObjects.Name;
+import luis.goes.urlshortener.domain.valueObject.Name;
 import luis.goes.urlshortener.presentation.exception.HttpException;
 
 import java.util.HashSet;
@@ -40,14 +41,19 @@ public class UserEntity implements Mappable {
     @Embedded
     public UserDateInfo dateInfo;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "role_id", nullable = false)
+    private RoleEntity userRole;
+
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private Set<URLEntity> urls = new HashSet<>();
 
-    public UserEntity(String name, String email, String password) {
+    public UserEntity(String name, String email, String password, RoleEntity role) {
         this.id = UUID.randomUUID();
         this.name = new Name(name);
         this.userCredentials = new UserCredentials(email, password);
         this.dateInfo = new UserDateInfo();
+        this.userRole = role;
     }
 
     public void changeName(String name) {

@@ -4,22 +4,19 @@ import luis.goes.urlshortener.shared.helpers.constraintName.ConstraintNameMapper
 import luis.goes.urlshortener.shared.helpers.statusCode.StatusCode;
 import org.hibernate.PropertyValueException;
 import org.hibernate.exception.ConstraintViolationException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
+import org.springframework.web.servlet.resource.NoResourceFoundException;
 
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(GlobalExceptionHandler.class);
-
     @ExceptionHandler(HttpException.class)
     public ResponseEntity<ErrorResponse> handleApiException(HttpException ex) {
-        LOGGER.warn("Handled API exception: {}", ex.getMessage());
         ErrorResponse error = new ErrorResponse(ex.getMessage(), ex.getStatusCode());
         return ResponseEntity.status(ex.getStatusCode()).body(error);
     }
@@ -33,8 +30,6 @@ public class GlobalExceptionHandler {
 
         String fieldName = ConstraintNameMapper.getFieldName(constraintName);
 
-        LOGGER.warn("Handled JPA exception: {}", ex.getMessage());
-
         ErrorResponse error = new ErrorResponse(
                 "Field '" + fieldName + "' already has a value",
                 StatusCode.CONFLICT
@@ -45,8 +40,6 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(PropertyValueException.class)
     public ResponseEntity<ErrorResponse> handleNullableException(PropertyValueException ex) {
-        LOGGER.error("Null value in not-null field", ex);
-
         String property = ex.getPropertyName();
         String entity = ex.getEntityName();
 
@@ -59,9 +52,7 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(HttpMessageNotReadableException.class)
-    public ResponseEntity<ErrorResponse> handleJsonInvalid(HttpMessageNotReadableException ex) {
-        LOGGER.error("Invalid JSON", ex);
-
+    public ResponseEntity<ErrorResponse> handleJsonInvalid() {
         ErrorResponse error = new ErrorResponse(
                 "The JSON sent in the request is invalid. Please check the syntax.",
                 StatusCode.BAD_REQUEST
@@ -70,10 +61,28 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(error.statusCode()).body(error);
     }
 
-    @ExceptionHandler(Exception.class)
-    public ResponseEntity<ErrorResponse> handleGenericException(Exception ex) {
-        LOGGER.error("Unhandled exception caught", ex);
+    @ExceptionHandler(MethodArgumentTypeMismatchException.class)
+    public ResponseEntity<ErrorResponse> handleTypeMismatch() {
+        ErrorResponse error = new ErrorResponse(
+                "Invalid ID: The given value, is an invalid ID",
+                StatusCode.BAD_REQUEST
+        );
+        return ResponseEntity.status(error.statusCode()).body(error);
+    }
 
+    @ExceptionHandler(NoResourceFoundException.class)
+    public ResponseEntity<ErrorResponse> handleTypeMismatch(NoResourceFoundException ex) {
+        String formatedMessage = ex.getMessage().replaceFirst("No static resource", "No static resource was found for").replace(".", "");
+        ErrorResponse error = new ErrorResponse(
+                formatedMessage,
+                StatusCode.BAD_REQUEST
+        );
+        return ResponseEntity.status(error.statusCode()).body(error);
+    }
+
+
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<ErrorResponse> handleGenericException() {
         ErrorResponse error = new ErrorResponse(
                 "Internal server error. That's not your fault!",
                 StatusCode.INTERNAL_SERVER_ERROR
@@ -81,4 +90,5 @@ public class GlobalExceptionHandler {
 
         return ResponseEntity.status(error.statusCode()).body(error);
     }
+
 }

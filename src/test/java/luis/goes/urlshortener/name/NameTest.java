@@ -1,6 +1,6 @@
 package luis.goes.urlshortener.name;
 
-import luis.goes.urlshortener.domain.valueObjects.Name;
+import luis.goes.urlshortener.domain.valueObject.Name;
 import luis.goes.urlshortener.presentation.exception.HttpException;
 import org.hamcrest.CoreMatchers;
 import org.junit.jupiter.api.Test;

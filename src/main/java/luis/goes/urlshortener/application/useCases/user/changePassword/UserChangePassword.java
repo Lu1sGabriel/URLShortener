@@ -11,11 +11,11 @@ import org.springframework.stereotype.Service;
 import java.util.UUID;
 
 @Service
-public class UserChangePasswordUseCase implements IUserChangePasswordUseCase {
+public class UserChangePassword implements IUserChangePassword {
     private final UserRepository repository;
     private final UserMapper mapper;
 
-    public UserChangePasswordUseCase(UserRepository repository, UserMapper mapper) {
+    public UserChangePassword(UserRepository repository, UserMapper mapper) {
         this.repository = repository;
         this.mapper = mapper;
     }

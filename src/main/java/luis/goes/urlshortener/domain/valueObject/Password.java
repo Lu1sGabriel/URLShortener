@@ -1,4 +1,4 @@
-package luis.goes.urlshortener.domain.valueObjects;
+package luis.goes.urlshortener.domain.valueObject;
 
 import io.micrometer.common.util.StringUtils;
 import jakarta.persistence.Embeddable;

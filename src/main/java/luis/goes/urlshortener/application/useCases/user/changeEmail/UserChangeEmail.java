@@ -11,11 +11,11 @@ import org.springframework.stereotype.Service;
 import java.util.UUID;
 
 @Service
-public class UserChangeEmailUseCase implements IUserChangeEmailUseCase {
+public class UserChangeEmail implements IUserChangeEmail {
     private final UserRepository repository;
     private final UserMapper mapper;
 
-    public UserChangeEmailUseCase(UserRepository repository, UserMapper mapper) {
+    public UserChangeEmail(UserRepository repository, UserMapper mapper) {
         this.repository = repository;
         this.mapper = mapper;
     }

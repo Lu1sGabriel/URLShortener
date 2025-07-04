@@ -1,7 +1,7 @@
 package luis.goes.urlshortener.application.useCases.user.login;
 
 import luis.goes.urlshortener.domain.entity.user.UserEntity;
-import luis.goes.urlshortener.domain.valueObjects.Email;
+import luis.goes.urlshortener.domain.valueObject.Email;
 import luis.goes.urlshortener.infrastructure.repository.user.UserRepository;
 import luis.goes.urlshortener.presentation.dtos.user.UserLoginDTO;
 import luis.goes.urlshortener.presentation.dtos.user.UserResponseDto;
@@ -10,12 +10,12 @@ import luis.goes.urlshortener.shared.mapper.user.UserMapper;
 import org.springframework.stereotype.Service;
 
 @Service
-public class UserLoginUseCase implements IUserLoginUseCase {
+public class UserLogin implements IUserLogin {
 
     private final UserRepository repository;
     private final UserMapper mapper;
 
-    public UserLoginUseCase(UserRepository repository, UserMapper mapper) {
+    public UserLogin(UserRepository repository, UserMapper mapper) {
         this.repository = repository;
         this.mapper = mapper;
     }

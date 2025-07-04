@@ -1,7 +1,7 @@
 package luis.goes.urlshortener.infrastructure.configuration;
 
 import jakarta.annotation.PostConstruct;
-import luis.goes.urlshortener.domain.valueObjects.Password;
+import luis.goes.urlshortener.domain.valueObject.Password;
 import luis.goes.urlshortener.shared.helpers.password.PasswordHashMapper;
 import org.springframework.stereotype.Component;
 

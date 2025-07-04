@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 import java.util.UUID;
 
 @Service
-public class UserDeactivate implements IUserDeactivateUseCase {
+public class UserDeactivate implements IUserDeactivate {
     private final UserRepository repository;
 
     public UserDeactivate(UserRepository repository) {
