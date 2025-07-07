@@ -11,11 +11,11 @@ public record UserResponseDto(
         String name,
         String email,
         String roleName,
-        List<UserUrlDto> urls,
+        List<UrlsInfo> urls,
         Instant createdAt,
         Instant updatedAt
 ) implements DTO {
-    public record UserUrlDto(
+    public record UrlsInfo(
             String original,
             String shortened
     ) {

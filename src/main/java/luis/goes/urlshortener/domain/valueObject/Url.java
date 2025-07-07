@@ -16,9 +16,10 @@ public final class Url {
     private String url;
 
     private static final Pattern REGEX = Pattern.compile(
-            "^(?:(http|https)://|www\\.)" +                // Prefixo obrigatório
-                    "([a-zA-Z0-9-]+\\.)+" +                            // Domínio(s)
-                    "([a-zA-Z]{2,})$"                                  // TLD com 2+ letras
+            "^(?:(http|https)://|www\\.)" +            // Prefixo http, https ou www
+                    "([a-zA-Z0-9-]+\\.)+" +                    // Domínio(s) como "google." ou "youtube."
+                    "([a-zA-Z]{2,})" +                         // TLD com 2 ou mais letras
+                    "([/?#].*)?$"                              // Opcional: /path, ?query, #fragment
     );
 
     public Url(String url) {

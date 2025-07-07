@@ -1,27 +1,31 @@
 package luis.goes.urlshortener.domain.entity.url;
 
 import jakarta.persistence.*;
-import lombok.AccessLevel;
 import lombok.Getter;
-import lombok.Setter;
+import luis.goes.urlshortener.domain.entity.Mappable;
 import luis.goes.urlshortener.domain.entity.user.UserEntity;
+import luis.goes.urlshortener.domain.valueObject.Url;
+import luis.goes.urlshortener.domain.valueObject.UrlName;
 
 import java.util.UUID;
 
 @Table
 @Entity(name = "url_db")
 @Getter
-@Setter
-public class URLEntity {
+public class URLEntity implements Mappable {
 
     @Id
-    @Setter(AccessLevel.NONE)
     private UUID id;
 
-    @Column(name = "original_url", nullable = false)
-    private String original;
+    @Embedded
+    @AttributeOverride(name = "url_name", column = @Column(name = "url_name", nullable = false))
+    private UrlName urlName;
 
-    @Column(name = "shortened_url", nullable = false)
+    @Embedded
+    @AttributeOverride(name = "url", column = @Column(name = "url", nullable = false))
+    private Url url;
+
+    @Column(name = "shortened", nullable = false)
     private String shortened;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -31,11 +35,20 @@ public class URLEntity {
     public URLEntity() {
     }
 
-    public URLEntity(String original, String shortened, UserEntity user) {
+    public URLEntity(String urlName, String url, String shortened, UserEntity user) {
         this.id = UUID.randomUUID();
-        this.original = original;
+        this.urlName = new UrlName(urlName);
+        this.url = new Url(url);
         this.shortened = shortened;
         this.user = user;
+    }
+
+    public void changeUrlName(String urlName) {
+        this.urlName = new UrlName(urlName);
+    }
+
+    public void changeOriginalUrl(String url) {
+        this.url = new Url(url);
     }
 
 }

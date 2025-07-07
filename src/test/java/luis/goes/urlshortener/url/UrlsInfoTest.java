@@ -9,11 +9,11 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-public class UrlTest {
+public class UrlsInfoTest {
 
     @Test
     void shouldCreateValidUrl() {
-        final String validUrl = "www.google.com.br";
+        final String validUrl = "https://www.youtube.com/watch?v=gE3hDK6pvBk&ab_channel=La%C3%A9rcioRefundini";
         Url url = new Url(validUrl);
         assertEquals(validUrl, url.getValue());
     }
@@ -51,6 +51,7 @@ public class UrlTest {
                 "http://google.t",       // TLD com uma letra
                 "http://google.",        // ponto final sem TLD
                 "https:/google.com",     // uma barra a menos
+                "www.google.com/"        // faltando após a '/'
         };
 
         for (String url : invalidUrls) {
@@ -59,4 +60,3 @@ public class UrlTest {
     }
 
 }
-

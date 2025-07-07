@@ -17,8 +17,8 @@ public final class UserMapper implements IMapper<UserResponseDto, UserEntity> {
                 userEntity.getName().getValue(),
                 userEntity.getUserCredentials().getEmail().getValue(),
                 userEntity.getUserRole().getName().getValue(),
-                userEntity.getUrls().stream().map(url -> new UserResponseDto.UserUrlDto(
-                        url.getOriginal(),
+                userEntity.getUrls().stream().map(url -> new UserResponseDto.UrlsInfo(
+                        url.getUrl().getValue(),
                         url.getShortened()
                 )).toList(),
                 userEntity.getDateInfo().getCreatedAt(),
@@ -28,9 +28,7 @@ public final class UserMapper implements IMapper<UserResponseDto, UserEntity> {
 
     @Override
     public List<UserResponseDto> toDtoList(List<UserEntity> userEntities) {
-        return userEntities.stream()
-                .map(this::toDto)
-                .toList();
+        return userEntities.stream().map(this::toDto).toList();
     }
 
 }
