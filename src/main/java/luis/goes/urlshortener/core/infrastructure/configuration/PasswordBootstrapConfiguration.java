@@ -1,0 +1,22 @@
+package luis.goes.urlshortener.core.infrastructure.configuration;
+
+import jakarta.annotation.PostConstruct;
+import luis.goes.urlshortener.modules.valueObject.Password;
+import luis.goes.urlshortener.core.shared.helpers.password.PasswordHash;
+import org.springframework.stereotype.Component;
+
+@Component
+public class PasswordBootstrapConfiguration {
+
+    private final PasswordHash passwordHash;
+
+    public PasswordBootstrapConfiguration(PasswordHash passwordHash) {
+        this.passwordHash = passwordHash;
+    }
+
+    @PostConstruct
+    public void init() {
+        Password.injectHasher(passwordHash);
+    }
+
+}

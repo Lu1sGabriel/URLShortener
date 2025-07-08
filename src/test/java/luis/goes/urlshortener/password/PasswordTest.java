@@ -1,7 +1,7 @@
 package luis.goes.urlshortener.password;
 
-import luis.goes.urlshortener.domain.valueObject.Password;
-import luis.goes.urlshortener.presentation.exception.HttpException;
+import luis.goes.urlshortener.modules.valueObject.Password;
+import luis.goes.urlshortener.core.exception.HttpException;
 import org.hamcrest.CoreMatchers;
 import org.junit.jupiter.api.Test;
 

@@ -9,6 +9,7 @@ spring:
     hibernate:
       ddl-auto: update
     show-sql: false
+    open-in-view: true
 
   profiles:
     active: dev
@@ -26,3 +27,10 @@ security:
     parallelism: 1
     memory: 15360
     iterations: 2
+
+jwt:
+  private:
+    key: classpath:jwtRSA256-private.pem
+  public:
+    key: classpath:jwtRSA256-public.pem
+  expiry-seconds: 3600

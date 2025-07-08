@@ -6,3 +6,6 @@ security:
 spring:
   jpa:
     show-sql: true
+
+jwt:
+  expiry-seconds: 86400
