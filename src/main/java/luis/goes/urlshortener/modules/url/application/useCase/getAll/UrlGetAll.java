@@ -1,6 +1,5 @@
 package luis.goes.urlshortener.modules.url.application.useCase.getAll;
 
-import luis.goes.urlshortener.modules.url.domain.URLEntity;
 import luis.goes.urlshortener.modules.url.infrastructure.repository.UrlRepository;
 import luis.goes.urlshortener.modules.url.presentation.dto.UrlResponseDTO;
 import luis.goes.urlshortener.modules.url.shared.mapper.UrlMapper;
@@ -22,8 +21,7 @@ public class UrlGetAll implements IUrlGetAll {
     @Override
     @Transactional(readOnly = true)
     public List<UrlResponseDTO> get() {
-        List<URLEntity> urls = repository.findAll();
-        return mapper.toDtoList(urls);
+        return mapper.toDtoList(repository.findAll());
     }
 
 }

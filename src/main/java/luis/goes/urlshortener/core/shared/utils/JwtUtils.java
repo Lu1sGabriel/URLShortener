@@ -24,12 +24,15 @@ public final class JwtUtils {
 
 
     public static UUID getCurrentUserId() {
-        String raw = getCurrentJwt().getClaimAsString("userId");
-        return UUID.fromString(raw);
+        return UUID.fromString(getCurrentJwt().getSubject());
     }
 
     public static String getCurrentUsername() {
         return getCurrentJwt().getSubject();
+    }
+
+    public static String getCurrentUserEmail() {
+        return getCurrentJwt().getClaimAsString("userEmail");
     }
 
     public static List<String> getCurrentPermissions() {

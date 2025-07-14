@@ -6,7 +6,6 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
-import java.util.UUID;
 
 public class UserAuthenticated implements UserDetails {
     private final UserEntity user;
@@ -29,16 +28,12 @@ public class UserAuthenticated implements UserDetails {
 
     @Override
     public String getUsername() {
-        return user.getName().getValue();
+        return user.getId().toString();
     }
 
     @Override
     public boolean isEnabled() {
         return user.getDateInfo().getDeletedAt() == null;
-    }
-
-    public UUID getId() {
-        return user.getId();
     }
 
 }

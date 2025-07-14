@@ -27,32 +27,32 @@ public final class Password {
     }
 
     private static String hash(String password) {
-        if (hashUtil == null) throw new IllegalStateException("PasswordHashUtil has not been initialized.");
+        if (hashUtil == null) throw new IllegalStateException("The password hashing utility has not been initialized.");
         return hashUtil.hash(password);
     }
 
     private static String validate(String password) {
-        if (password == null) throw HttpException.badRequest("Password must not be null.");
+        if (password == null) throw HttpException.badRequest("Please enter a password.");
 
-        if (StringUtils.isBlank(password)) throw HttpException.badRequest("Password must not be blank.");
+        if (StringUtils.isBlank(password)) throw HttpException.badRequest("Password cannot be blank.");
 
         if (password.length() < 8) throw HttpException.badRequest("Password must be at least 8 characters long.");
 
         if (password.toLowerCase().contains("ç")) throw HttpException.badRequest("Password cannot contain the character 'ç' or 'Ç'.");
 
-        if (!REGEX.matcher(password).matches()) throw HttpException.badRequest("Password must have uppercase, lowercase, number, and special character.");
+        if (!REGEX.matcher(password).matches()) throw HttpException.badRequest("Password must include at least one uppercase letter, one lowercase letter, one number, and one special character.");
 
         return password;
     }
 
     public static void injectHasher(PasswordHash util) {
-        if (Password.hashUtil != null) throw new IllegalStateException("PasswordHashUtil has already been set.");
+        if (Password.hashUtil != null) throw new IllegalStateException("The password hashing utility has already been initialized.");
         Password.hashUtil = util;
     }
 
     public void isPasswordMatches(String encodedPassword, String rawPassword) {
         boolean matches = hashUtil.matches(rawPassword, encodedPassword);
-        if (!matches) throw HttpException.badRequest("Current password is incorrect.");
+        if (!matches) throw HttpException.badRequest("The current password you entered is incorrect.");
     }
 
     public String getValue() {
@@ -63,6 +63,5 @@ public final class Password {
     public String toString() {
         return "[PROTECTED]";
     }
-
 
 }

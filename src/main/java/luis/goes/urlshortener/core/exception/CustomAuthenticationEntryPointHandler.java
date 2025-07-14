@@ -22,18 +22,13 @@ public class CustomAuthenticationEntryPointHandler implements AuthenticationEntr
         response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
         response.setContentType("application/json");
 
-        // Mensagem personalizada dependendo do tipo de erro
         String message = "JWT token is missing or invalid.";
 
-        // Opcional: pode verificar o tipo de exceção para personalizar ainda mais
         if (authException.getCause() instanceof JwtException) {
             message = "JWT token is malformed, expired, or unsupported.";
         }
 
-        ErrorResponse errorResponse = new ErrorResponse(
-                message,
-                HttpServletResponse.SC_UNAUTHORIZED
-        );
+        ErrorResponse errorResponse = new ErrorResponse(message);
 
         response.getWriter().write(objectMapper.writeValueAsString(errorResponse));
     }

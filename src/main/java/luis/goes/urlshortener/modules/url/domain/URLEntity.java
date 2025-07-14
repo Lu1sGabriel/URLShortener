@@ -4,8 +4,8 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import luis.goes.urlshortener.core.shared.mapper.entityToDto.Mappable;
 import luis.goes.urlshortener.modules.user.domain.UserEntity;
-import luis.goes.urlshortener.modules.valueObject.Url;
-import luis.goes.urlshortener.modules.valueObject.UrlName;
+import luis.goes.urlshortener.modules.url.valueObject.Url;
+import luis.goes.urlshortener.modules.url.valueObject.UrlName;
 
 import java.util.UUID;
 

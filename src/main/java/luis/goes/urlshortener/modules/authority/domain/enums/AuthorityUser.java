@@ -7,6 +7,9 @@ public enum AuthorityUser implements IAuthority {
 
     VIEW_PROFILE("user:view-profile", "View own profile"),
     VIEW_ALL("user:view-all", "View all users"),
+    VIEW_ALL_DEACTIVATED("user:view-all-deactivated", "View all deactivated users"),
+    GET_BY_NAME("user:get-by-name", "Get a user by name"),
+    GET_BY_EMAIL("user:get-by-email", "Get a user by email"),
     CHANGE_PASSWORD("user:change-password", "Change user password"),
     CHANGE_NAME("user:change-name", "Change user name"),
     CHANGE_EMAIL("user:change-email", "Change user email"),
@@ -19,6 +22,5 @@ public enum AuthorityUser implements IAuthority {
         this.value = value;
         this.description = description;
     }
-
 
 }

@@ -1,13 +1,13 @@
 package luis.goes.urlshortener.modules.url.application.useCase.create;
 
+import luis.goes.urlshortener.core.exception.HttpException;
+import luis.goes.urlshortener.core.shared.utils.NameFormatter;
 import luis.goes.urlshortener.modules.url.domain.URLEntity;
 import luis.goes.urlshortener.modules.url.infrastructure.repository.UrlRepository;
-import luis.goes.urlshortener.modules.user.infrastructure.repository.UserRepository;
 import luis.goes.urlshortener.modules.url.presentation.dto.UrlRequestDTO;
 import luis.goes.urlshortener.modules.url.presentation.dto.UrlResponseDTO;
-import luis.goes.urlshortener.core.exception.HttpException;
 import luis.goes.urlshortener.modules.url.shared.mapper.UrlMapper;
-import luis.goes.urlshortener.core.shared.utils.NameFormatter;
+import luis.goes.urlshortener.modules.user.infrastructure.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;
@@ -28,7 +28,7 @@ public class UrlCreate implements IUrlCreate {
     @Override
     public UrlResponseDTO create(UrlRequestDTO dto) {
         var user = userRepository.findById(dto.userId())
-                .orElseThrow(() -> HttpException.notFound("User not found with the given ID."));
+                .orElseThrow(() -> HttpException.notFound("We couldn't find a user with the provided ID."));
 
         UUID id;
         do {
@@ -68,9 +68,7 @@ public class UrlCreate implements IUrlCreate {
     }
 
     private String buildShortenedUrl(String userName, String id) {
-        if (id == null || id.isBlank()) {
-            throw new IllegalArgumentException("ID não pode ser nulo ou vazio");
-        }
+        if (id == null || id.isBlank()) throw new IllegalArgumentException("ID cannot be null or empty.");
         return String.format("%s/%s", userName, id);
     }
 

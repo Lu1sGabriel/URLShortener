@@ -1,10 +1,10 @@
 package luis.goes.urlshortener.modules.user.application.useCase.changeName;
 
+import luis.goes.urlshortener.core.exception.HttpException;
 import luis.goes.urlshortener.modules.user.domain.UserEntity;
 import luis.goes.urlshortener.modules.user.infrastructure.repository.UserRepository;
 import luis.goes.urlshortener.modules.user.presentation.dto.UserChangeNameDTO;
 import luis.goes.urlshortener.modules.user.presentation.dto.UserResponseDto;
-import luis.goes.urlshortener.core.exception.HttpException;
 import luis.goes.urlshortener.modules.user.shared.mapper.UserMapper;
 import org.springframework.stereotype.Service;
 
@@ -22,10 +22,22 @@ public class UserChangeName implements IUserChangeName {
 
     @Override
     public UserResponseDto change(UUID id, UserChangeNameDTO dto) {
-        if (id == null) throw HttpException.badRequest("ID must not be null");
-        UserEntity user = repository.findById(id).orElseThrow(() -> HttpException.notFound("User not found with the giver ID."));
+        checkIfNameIsAlreadyInUse(dto);
+
+        if (id == null) throw HttpException.badRequest("An error occurred: User ID was not provided.");
+
+        UserEntity user = repository.findById(id)
+                .orElseThrow(() -> HttpException.notFound("We couldn't find a user with the provided ID."));
+
+        if (user.getDateInfo().getDeletedAt() != null) throw HttpException.badRequest("This user is deactivated.");
+
         user.changeName(dto.name());
+
         return mapper.toDto(repository.save(user));
+    }
+
+    private void checkIfNameIsAlreadyInUse(UserChangeNameDTO dto) {
+        if (repository.findByName_Name(dto.name()).isPresent()) throw HttpException.conflict("This name is already associated with another user.");
     }
 
 }

@@ -26,11 +26,11 @@ public final class Email {
     }
 
     private String validate(String email) {
-        if (email == null) throw HttpException.badRequest("Email must not be null.");
+        if (email == null) throw HttpException.badRequest("Please provide an email address.");
 
-        if (StringUtils.isBlank(email)) throw HttpException.badRequest("Email must no be blank");
+        if (StringUtils.isBlank(email)) throw HttpException.badRequest("Email address cannot be blank.");
 
-        if (!REGEX.matcher(email).matches()) throw HttpException.badRequest("Invalid email address format.");
+        if (!REGEX.matcher(email).matches()) throw HttpException.badRequest("The email address format is invalid.");
 
         return email.trim();
     }

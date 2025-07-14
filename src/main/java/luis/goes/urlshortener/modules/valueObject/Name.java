@@ -23,9 +23,9 @@ public class Name {
     }
 
     private String validate(String name) {
-        if (name == null) throw HttpException.badRequest("Name is required.");
+        if (name == null) throw HttpException.badRequest("Please provide a name.");
 
-        if (StringUtils.isBlank(name)) throw HttpException.badRequest("Name cannot be empty or whitespace.");
+        if (StringUtils.isBlank(name)) throw HttpException.badRequest("Name cannot be empty or contain only spaces.");
 
         if (name.length() < 2) throw HttpException.badRequest("Name must be at least 2 characters long.");
 

@@ -20,10 +20,7 @@ public class CustomAccessDeniedHandler implements AccessDeniedHandler {
         response.setStatus(HttpServletResponse.SC_FORBIDDEN);
         response.setContentType("application/json");
 
-        ErrorResponse errorResponse = new ErrorResponse(
-                accessDeniedException.getMessage(),
-                403
-        );
+        ErrorResponse errorResponse = new ErrorResponse(accessDeniedException.getMessage());
 
         String json = objectMapper.writeValueAsString(errorResponse);
         response.getWriter().write(json);

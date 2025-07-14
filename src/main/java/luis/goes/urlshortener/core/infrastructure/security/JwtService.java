@@ -17,7 +17,6 @@ public class JwtService {
 
     private static final String ISSUER = "spring-security-jwt";
     private static final String PERMISSIONS_CLAIM = "permission";
-    private static final String USER_ID_CLAIM = "userId";
 
     private final JwtEncoder encoder;
     private final long expirySeconds;
@@ -51,7 +50,6 @@ public class JwtService {
                         .map(GrantedAuthority::getAuthority)
                         .sorted()
                         .collect(Collectors.toList()))
-                .claim(USER_ID_CLAIM, user.getId())
                 .build();
     }
 

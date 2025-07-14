@@ -1,7 +1,7 @@
 package luis.goes.urlshortener.core.infrastructure.security;
 
-import luis.goes.urlshortener.modules.user.infrastructure.repository.UserRepository;
 import luis.goes.urlshortener.core.exception.HttpException;
+import luis.goes.urlshortener.modules.user.infrastructure.repository.UserRepository;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
@@ -17,9 +17,14 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String email) {
-        return userRepository.findByUserCredentials_Email_Email(email)
+
+        UserAuthenticated user = userRepository.findByUserCredentials_Email_Email(email)
                 .map(UserAuthenticated::new)
-                .orElseThrow(() -> HttpException.notFound("User not found withe the given email."));
+                .orElseThrow(() -> HttpException.notFound("We couldn't find a user with the provided email."));
+
+        if (!user.isEnabled()) throw HttpException.badRequest("This user account has been deactivated.");
+
+        return user;
     }
 
 }

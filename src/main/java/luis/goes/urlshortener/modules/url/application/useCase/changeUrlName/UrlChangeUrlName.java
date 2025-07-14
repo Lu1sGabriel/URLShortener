@@ -1,13 +1,13 @@
 package luis.goes.urlshortener.modules.url.application.useCase.changeUrlName;
 
+import luis.goes.urlshortener.core.exception.HttpException;
 import luis.goes.urlshortener.modules.url.domain.URLEntity;
-import luis.goes.urlshortener.modules.user.domain.UserEntity;
 import luis.goes.urlshortener.modules.url.infrastructure.repository.UrlRepository;
-import luis.goes.urlshortener.modules.user.infrastructure.repository.UserRepository;
 import luis.goes.urlshortener.modules.url.presentation.dto.UrlChangeUrlNameDTO;
 import luis.goes.urlshortener.modules.url.presentation.dto.UrlResponseDTO;
-import luis.goes.urlshortener.core.exception.HttpException;
 import luis.goes.urlshortener.modules.url.shared.mapper.UrlMapper;
+import luis.goes.urlshortener.modules.user.domain.UserEntity;
+import luis.goes.urlshortener.modules.user.infrastructure.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -25,12 +25,12 @@ public class UrlChangeUrlName implements IUrlChangeUrlName {
     @Override
     public UrlResponseDTO change(UrlChangeUrlNameDTO dto) {
         UserEntity user = userRepository.findById(dto.userId())
-                .orElseThrow(() -> HttpException.notFound("User not found with the given ID."));
+                .orElseThrow(() -> HttpException.notFound("We couldn't find a user with the provided ID."));
 
         URLEntity url = repository.findById(dto.id())
-                .orElseThrow(() -> HttpException.notFound("URL not found with the given ID."));
+                .orElseThrow(() -> HttpException.notFound("We couldn't find a URL with the provided ID."));
 
-        if (url.getUser().getId() != user.getId()) throw HttpException.badRequest("The user ID is not the same as the URL");
+        if (!url.getUser().getId().equals(user.getId())) throw HttpException.badRequest("The user ID does not match the owner of the URL.");
 
         url.changeUrlName(dto.urlName());
 

@@ -1,4 +1,4 @@
-package luis.goes.urlshortener.modules.valueObject;
+package luis.goes.urlshortener.modules.url.valueObject;
 
 import io.micrometer.common.util.StringUtils;
 import jakarta.persistence.Embeddable;
@@ -18,8 +18,8 @@ public final class UrlName {
     }
 
     private String validate(String name) {
-        if (name == null) throw HttpException.badRequest("Name must not be null.");
-        if (StringUtils.isBlank(name)) throw HttpException.badRequest("Name must not be blank.");
+        if (name == null) throw HttpException.badRequest("Please provide a name.");
+        if (StringUtils.isBlank(name)) throw HttpException.badRequest("Name cannot be blank.");
         if (name.length() < 2) throw HttpException.badRequest("Name must be at least 2 characters long.");
         return name;
     }

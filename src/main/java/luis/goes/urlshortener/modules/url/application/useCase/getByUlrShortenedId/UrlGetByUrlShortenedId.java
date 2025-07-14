@@ -1,9 +1,9 @@
 package luis.goes.urlshortener.modules.url.application.useCase.getByUlrShortenedId;
 
+import luis.goes.urlshortener.core.exception.HttpException;
 import luis.goes.urlshortener.modules.url.domain.URLEntity;
 import luis.goes.urlshortener.modules.url.infrastructure.repository.UrlRepository;
 import luis.goes.urlshortener.modules.url.presentation.dto.UrlResponseDTO;
-import luis.goes.urlshortener.core.exception.HttpException;
 import luis.goes.urlshortener.modules.url.shared.mapper.UrlMapper;
 import org.springframework.stereotype.Service;
 
@@ -30,7 +30,8 @@ public class UrlGetByUrlShortenedId implements IUrlGetByUrlShortenedId {
                     String extractedId = (idx != -1) ? shortened.substring(idx + 1) : shortened;
                     return extractedId.equals(id);
                 })
-                .findFirst().orElseThrow(() -> HttpException.notFound("URL not found with the given ID"));
+                .findFirst()
+                .orElseThrow(() -> HttpException.notFound("We couldn't find a URL matching the provided shortened ID."));
 
         return mapper.toDto(found);
     }

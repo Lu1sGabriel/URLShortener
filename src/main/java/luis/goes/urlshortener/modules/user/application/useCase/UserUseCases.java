@@ -6,32 +6,29 @@ import luis.goes.urlshortener.modules.user.application.useCase.changeName.IUserC
 import luis.goes.urlshortener.modules.user.application.useCase.changePassword.IUserChangePassword;
 import luis.goes.urlshortener.modules.user.application.useCase.create.IUserCreate;
 import luis.goes.urlshortener.modules.user.application.useCase.deactivate.IUserDeactivate;
-import luis.goes.urlshortener.modules.user.application.useCase.getAll.IUserGetAll;
-import luis.goes.urlshortener.modules.user.application.useCase.getById.IUserGetById;
+import luis.goes.urlshortener.modules.user.application.useCase.getMethods.IUserGetters;
 import org.springframework.stereotype.Component;
 
 @Component
 @Getter
 public class UserUseCases {
 
-    private final IUserGetById byId;
-    private final IUserGetAll all;
+    private final IUserGetters getters;
     private final IUserCreate create;
     private final IUserDeactivate deactivate;
     private final IUserChangePassword changePassword;
     private final IUserChangeEmail changeEmail;
     private final IUserChangeName changeName;
 
-    public UserUseCases(IUserGetById byId, IUserGetAll all, IUserCreate create, IUserDeactivate deactivate,
-                        IUserChangePassword userChangePasswordUseCase, IUserChangeEmail changeEmail,
-                        IUserChangeName userChangeNameUseCase) {
-        this.byId = byId;
-        this.all = all;
+
+    public UserUseCases(IUserGetters getters, IUserCreate create, IUserDeactivate deactivate,
+                        IUserChangePassword changePassword, IUserChangeEmail changeEmail, IUserChangeName changeName) {
+        this.getters = getters;
         this.create = create;
         this.deactivate = deactivate;
-        this.changePassword = userChangePasswordUseCase;
+        this.changePassword = changePassword;
         this.changeEmail = changeEmail;
-        this.changeName = userChangeNameUseCase;
+        this.changeName = changeName;
     }
 
 }
