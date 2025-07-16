@@ -30,7 +30,7 @@ public class AuthorityInitializer implements ApplicationListener<ApplicationRead
     @Override
     public void onApplicationEvent(ApplicationReadyEvent event) {
         Arrays.stream(AuthorityUtils.getAllPermissions())
-                .filter(permission -> !authorityRepository.existsByAuthority(permission.getValue()))
+                .filter(permission -> authorityRepository.findByAuthorityName_Authority(permission.getValue()).isEmpty())
                 .forEach(permission -> authorityRepository.save(new AuthorityEntity(permission)));
 
         System.out.println("Permissões inicializadas com sucesso.");

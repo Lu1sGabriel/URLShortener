@@ -8,6 +8,7 @@ public enum AuthorityUser implements IAuthority {
     VIEW_PROFILE("user:view-profile", "View own profile"),
     VIEW_ALL("user:view-all", "View all users"),
     VIEW_ALL_DEACTIVATED("user:view-all-deactivated", "View all deactivated users"),
+    VIEW_ALL_AUTHORITIES("user:view-all-authorities", "View all user authorities"),
     GET_BY_NAME("user:get-by-name", "Get a user by name"),
     GET_BY_EMAIL("user:get-by-email", "Get a user by email"),
     CHANGE_PASSWORD("user:change-password", "Change user password"),

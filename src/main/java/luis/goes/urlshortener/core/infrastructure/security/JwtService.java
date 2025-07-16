@@ -1,6 +1,5 @@
 package luis.goes.urlshortener.core.infrastructure.security;
 
-
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -33,12 +32,12 @@ public class JwtService {
             throw new IllegalArgumentException("Principal must be of type UserAuthenticated");
         }
 
-        JwtClaimsSet claims = buildClaims(authentication, user);
+        JwtClaimsSet claims = buildClaims(authentication);
 
         return encoder.encode(JwtEncoderParameters.from(claims)).getTokenValue();
     }
 
-    private JwtClaimsSet buildClaims(Authentication authentication, UserAuthenticated user) {
+    private JwtClaimsSet buildClaims(Authentication authentication) {
         Instant now = Instant.now();
 
         return JwtClaimsSet.builder()

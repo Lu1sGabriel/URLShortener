@@ -20,7 +20,6 @@ public class UserUseCases {
     private final IUserChangeEmail changeEmail;
     private final IUserChangeName changeName;
 
-
     public UserUseCases(IUserGetters getters, IUserCreate create, IUserDeactivate deactivate,
                         IUserChangePassword changePassword, IUserChangeEmail changeEmail, IUserChangeName changeName) {
         this.getters = getters;

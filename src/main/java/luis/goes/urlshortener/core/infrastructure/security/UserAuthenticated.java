@@ -17,7 +17,7 @@ public class UserAuthenticated implements UserDetails {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return user.getUserAuthorities().stream()
-                .map(permission -> new SimpleGrantedAuthority(permission.getAuthority().getAuthority()))
+                .map(authority -> new SimpleGrantedAuthority(authority.getAuthority().getAuthorityName().getValue()))
                 .toList();
     }
 

@@ -4,6 +4,7 @@ import luis.goes.urlshortener.core.exception.HttpException;
 import luis.goes.urlshortener.modules.user.domain.UserEntity;
 import luis.goes.urlshortener.modules.user.infrastructure.repository.UserRepository;
 import luis.goes.urlshortener.modules.user.presentation.dto.UserResponseDto;
+import luis.goes.urlshortener.modules.user.presentation.dto.UserWithAuthorityDto;
 import luis.goes.urlshortener.modules.user.shared.mapper.UserMapper;
 import org.springframework.stereotype.Service;
 
@@ -58,6 +59,16 @@ public class UserGetters implements IUserGetters {
     @Override
     public List<UserResponseDto> allDeactivated() {
         return mapper.toDtoList(repository.findAllByDateInfoDeletedAtNotNull());
+    }
+
+    @Override
+    public UserWithAuthorityDto allUserAuthorities(UUID userId) {
+        if (userId == null) throw HttpException.badRequest("User ID must be provided.");
+
+        UserEntity user = repository.findById(userId)
+                .orElseThrow(() -> HttpException.notFound("User not found with the provided ID."));
+
+        return mapper.toDtoWithAuthority(user);
     }
 
 }

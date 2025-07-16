@@ -2,9 +2,9 @@ package luis.goes.urlshortener.modules.user.application.useCase.create;
 
 import luis.goes.urlshortener.core.exception.HttpException;
 import luis.goes.urlshortener.modules.authority.domain.AuthorityEntity;
-import luis.goes.urlshortener.modules.authority.domain.enums.IAuthority;
-import luis.goes.urlshortener.modules.authority.domain.enums.AuthorityUrl;
 import luis.goes.urlshortener.modules.authority.domain.enums.AuthorityUser;
+import luis.goes.urlshortener.modules.authority.domain.enums.AuthorityUrl;
+import luis.goes.urlshortener.modules.authority.domain.enums.IAuthority;
 import luis.goes.urlshortener.modules.authority.infrastructure.repository.AuthorityRepository;
 import luis.goes.urlshortener.modules.user.domain.UserEntity;
 import luis.goes.urlshortener.modules.user.infrastructure.repository.UserRepository;
@@ -40,7 +40,6 @@ public class UserCreate implements IUserCreate {
         return mapper.toDto(repository.save(user));
     }
 
-
     private List<AuthorityEntity> getDefaultPermissions() {
         final List<AuthorityEntity> authorityEntityList = new ArrayList<>();
 
@@ -73,9 +72,8 @@ public class UserCreate implements IUserCreate {
     }
 
     private AuthorityEntity findPermissionEntity(IAuthority permission) {
-        return authorityRepository.findByAuthority(permission.getValue())
+        return authorityRepository.findByAuthorityName_Authority(permission.getValue())
                 .orElseThrow(() -> HttpException.notFound("Permission not found: " + permission.getValue()));
     }
-
 
 }

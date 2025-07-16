@@ -44,6 +44,11 @@ public class UserController {
         return ResponseEntity.ok(userUseCases.getGetters().all());
     }
 
+    @GetMapping(value = "/userAuthorities")
+    public ResponseEntity<UserWithAuthorityDto> getAllUserAuthorities() {
+        return ResponseEntity.ok(userUseCases.getGetters().allUserAuthorities(getUserIdByJwt()));
+    }
+
     @PostMapping
     public ResponseEntity<UserResponseDto> create(@RequestBody UserRequestDTO dto) {
         return ResponseEntity.ok(userUseCases.getCreate().create(dto));

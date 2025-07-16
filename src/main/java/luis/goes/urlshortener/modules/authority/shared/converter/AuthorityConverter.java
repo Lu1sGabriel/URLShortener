@@ -1,4 +1,4 @@
-package luis.goes.urlshortener.modules.authority.shared;
+package luis.goes.urlshortener.modules.authority.shared.converter;
 
 import jakarta.persistence.AttributeConverter;
 import jakarta.persistence.Converter;

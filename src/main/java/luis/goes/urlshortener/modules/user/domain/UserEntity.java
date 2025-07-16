@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import luis.goes.urlshortener.modules.authority.domain.AuthorityEntity;
 import luis.goes.urlshortener.modules.url.domain.URLEntity;
-import luis.goes.urlshortener.modules.userAuthority.domain.UserAuthority;
+import luis.goes.urlshortener.modules.userAuthority.domain.UserAuthorityEntity;
 import luis.goes.urlshortener.core.exception.HttpException;
 import luis.goes.urlshortener.core.shared.mapper.entityToDto.Mappable;
 import luis.goes.urlshortener.modules.valueObject.Name;
@@ -44,7 +44,7 @@ public class UserEntity implements Mappable {
     public UserDateInfo dateInfo;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    private final Set<UserAuthority> userAuthorities = new HashSet<>();
+    private final Set<UserAuthorityEntity> userAuthorities = new HashSet<>();
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private final Set<URLEntity> urls = new HashSet<>();
@@ -56,13 +56,17 @@ public class UserEntity implements Mappable {
         this.dateInfo = new UserDateInfo();
 
         authorities.forEach(permission ->
-                this.userAuthorities.add(new UserAuthority(this, permission))
+                this.userAuthorities.add(new UserAuthorityEntity(this, permission))
         );
 
     }
 
-    public void removePermission(UserAuthority userAuthority) {
-        this.userAuthorities.remove(userAuthority);
+    public void addAuthority(UserAuthorityEntity userAuthorityEntity){
+        this.userAuthorities.add(userAuthorityEntity);
+    }
+
+    public void removeAuthority(UserAuthorityEntity userAuthorityEntity) {
+        this.userAuthorities.remove(userAuthorityEntity);
     }
 
     public void changeName(String name) {

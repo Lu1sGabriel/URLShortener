@@ -10,6 +10,5 @@ public class LoginSecurityMatcher implements ISecurityMatcher {
     @Override
     public void configure(AuthorizeHttpRequestsConfigurer<HttpSecurity>.AuthorizationManagerRequestMatcherRegistry auth) {
         auth.requestMatchers(HttpMethod.POST, "/login").permitAll();
-
     }
 }

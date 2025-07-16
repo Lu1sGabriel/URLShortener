@@ -12,7 +12,7 @@ import java.util.UUID;
 @Table(name = "user_authority_db")
 @Getter
 @NoArgsConstructor
-public class UserAuthority {
+public class UserAuthorityEntity {
 
     @Id
     private UUID id;
@@ -25,7 +25,7 @@ public class UserAuthority {
     @JoinColumn(name = "authority_id", nullable = false)
     private AuthorityEntity authority;
 
-    public UserAuthority(UserEntity user, AuthorityEntity authority) {
+    public UserAuthorityEntity(UserEntity user, AuthorityEntity authority) {
         this.id = UUID.randomUUID();
         this.user = user;
         this.authority = authority;

@@ -10,8 +10,6 @@ import java.util.UUID;
 @Repository
 public interface AuthorityRepository extends JpaRepository<AuthorityEntity, UUID> {
 
-    Optional<AuthorityEntity> findByAuthority(String authority);
-
-    boolean existsByAuthority(String authority);
+    Optional<AuthorityEntity> findByAuthorityName_Authority(String authority);
 
 }
