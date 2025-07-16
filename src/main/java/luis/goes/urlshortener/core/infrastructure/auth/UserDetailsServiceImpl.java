@@ -1,4 +1,4 @@
-package luis.goes.urlshortener.core.infrastructure.security;
+package luis.goes.urlshortener.core.infrastructure.auth;
 
 import luis.goes.urlshortener.core.exception.HttpException;
 import luis.goes.urlshortener.modules.user.infrastructure.repository.UserRepository;

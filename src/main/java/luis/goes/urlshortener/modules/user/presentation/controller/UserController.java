@@ -69,6 +69,12 @@ public class UserController {
         return ResponseEntity.ok(userUseCases.getChangeEmail().change(getUserIdByJwt(), dto));
     }
 
+    @PatchMapping(value = "/activate")
+    public ResponseEntity<Void> activate(@RequestBody UUID id) {
+        userUseCases.getActivate().activate(id);
+        return ResponseEntity.ok().build();
+    }
+
     @DeleteMapping
     public ResponseEntity<Void> deactivate() {
         userUseCases.getDeactivate().deactivate(getUserIdByJwt());
@@ -76,7 +82,7 @@ public class UserController {
     }
 
     private UUID getUserIdByJwt() {
-        return JwtUtils.getCurrentUserId();
+        return JwtUtils.getSubject();
     }
 
 }

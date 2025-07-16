@@ -29,8 +29,6 @@ public class UserChangeName implements IUserChangeName {
         UserEntity user = repository.findById(id)
                 .orElseThrow(() -> HttpException.notFound("We couldn't find a user with the provided ID."));
 
-        if (user.getDateInfo().getDeletedAt() != null) throw HttpException.badRequest("This user is deactivated.");
-
         user.changeName(dto.name());
 
         return mapper.toDto(repository.save(user));

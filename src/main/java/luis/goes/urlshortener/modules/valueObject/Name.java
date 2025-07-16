@@ -27,7 +27,7 @@ public class Name {
 
         if (StringUtils.isBlank(name)) throw HttpException.badRequest("Name cannot be empty or contain only spaces.");
 
-        if (name.length() < 2) throw HttpException.badRequest("Name must be at least 2 characters long.");
+        if (name.length() < 3) throw HttpException.badRequest("Name must be at least 3 characters long.");
 
         if (!REGEX.matcher(name).matches()) throw HttpException.badRequest("Name can only contain letters and spaces.");
 

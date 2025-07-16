@@ -32,4 +32,8 @@ public class UserDateInfo {
         this.deletedAt = Instant.now();
     }
 
+    public void activate() {
+        this.deletedAt = null;
+    }
+
 }

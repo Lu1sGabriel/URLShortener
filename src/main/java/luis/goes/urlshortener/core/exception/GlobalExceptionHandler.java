@@ -1,10 +1,7 @@
 package luis.goes.urlshortener.core.exception;
 
 import luis.goes.urlshortener.core.shared.dto.ErrorResponse;
-import luis.goes.urlshortener.core.shared.mapper.nameConstraint.ConstraintNameMapper;
 import org.hibernate.PropertyValueException;
-import org.hibernate.exception.ConstraintViolationException;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
@@ -20,20 +17,6 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ErrorResponse> handleApiException(HttpException ex) {
         ErrorResponse error = new ErrorResponse(ex.getMessage());
         return ResponseEntity.status(ex.getStatusCode()).body(error);
-    }
-
-    @ExceptionHandler(DataIntegrityViolationException.class)
-    public ResponseEntity<ErrorResponse> handleUniqueConstraintViolation(DataIntegrityViolationException ex) {
-        String constraintName = null;
-        if (ex.getCause() instanceof ConstraintViolationException cve) {
-            constraintName = cve.getConstraintName();
-        }
-
-        String fieldName = ConstraintNameMapper.getFieldName(constraintName);
-
-        ErrorResponse error = new ErrorResponse("Field '" + fieldName + "' already has a value");
-
-        return ResponseEntity.status(HttpStatus.CONFLICT).body(error);
     }
 
     @ExceptionHandler(PropertyValueException.class)

@@ -1,6 +1,7 @@
 package luis.goes.urlshortener.modules.url.application.useCase.create;
 
 import luis.goes.urlshortener.core.exception.HttpException;
+import luis.goes.urlshortener.core.shared.utils.JwtUtils;
 import luis.goes.urlshortener.core.shared.utils.NameFormatter;
 import luis.goes.urlshortener.modules.url.domain.URLEntity;
 import luis.goes.urlshortener.modules.url.infrastructure.repository.UrlRepository;
@@ -27,7 +28,7 @@ public class UrlCreate implements IUrlCreate {
 
     @Override
     public UrlResponseDTO create(UrlRequestDTO dto) {
-        var user = userRepository.findById(dto.userId())
+        var user = userRepository.findById(JwtUtils.getSubject())
                 .orElseThrow(() -> HttpException.notFound("We couldn't find a user with the provided ID."));
 
         UUID id;

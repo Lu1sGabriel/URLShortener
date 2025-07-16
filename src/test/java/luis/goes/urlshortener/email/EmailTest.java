@@ -1,7 +1,7 @@
 package luis.goes.urlshortener.email;
 
-import luis.goes.urlshortener.modules.valueObject.Email;
 import luis.goes.urlshortener.core.exception.HttpException;
+import luis.goes.urlshortener.modules.valueObject.Email;
 import org.hamcrest.CoreMatchers;
 import org.junit.jupiter.api.Test;
 
@@ -20,13 +20,21 @@ public class EmailTest {
     @Test
     void shouldThrowExceptionForNullableEmail() {
         Exception exception = assertThrows(HttpException.class, () -> new Email(null));
-        assertThat(exception.getMessage(), CoreMatchers.containsString("Email must not be null."));
+        assertThat(exception.getMessage(), CoreMatchers.containsString("Please provide an email address."));
+    }
+
+    @Test
+    void shouldThrowExceptionForBlankEmail() {
+        final String blankEmail = " ";
+        Exception exception = assertThrows(HttpException.class, () -> new Email(blankEmail));
+        assertThat(exception.getMessage(), CoreMatchers.containsString("Email address cannot be blank."));
     }
 
     @Test
     void shouldThrowExceptionForInvalidEmail() {
         final String invalidEmail = "email.com";
         Exception exception = assertThrows(HttpException.class, () -> new Email(invalidEmail));
-        assertThat(exception.getMessage(), CoreMatchers.containsString("Email invalid"));
+        assertThat(exception.getMessage(), CoreMatchers.containsString("The email address format is invalid"));
     }
+
 }

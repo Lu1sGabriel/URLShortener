@@ -5,11 +5,11 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import luis.goes.urlshortener.core.exception.HttpException;
+import luis.goes.urlshortener.core.shared.mapper.entityToDto.Mappable;
 import luis.goes.urlshortener.modules.authority.domain.AuthorityEntity;
 import luis.goes.urlshortener.modules.url.domain.URLEntity;
 import luis.goes.urlshortener.modules.userAuthority.domain.UserAuthorityEntity;
-import luis.goes.urlshortener.core.exception.HttpException;
-import luis.goes.urlshortener.core.shared.mapper.entityToDto.Mappable;
 import luis.goes.urlshortener.modules.valueObject.Name;
 
 import java.util.HashSet;
@@ -17,14 +17,8 @@ import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
-@Entity(name = "user_db")
-@Table(
-        name = "user_db",
-        uniqueConstraints = {
-                @UniqueConstraint(name = "uk_user_name", columnNames = {"name"}),
-                @UniqueConstraint(name = "uk_user_email", columnNames = {"email"})
-        }
-)
+@Entity
+@Table(name = "user_db")
 @NoArgsConstructor
 @Getter
 public class UserEntity implements Mappable {
@@ -61,7 +55,7 @@ public class UserEntity implements Mappable {
 
     }
 
-    public void addAuthority(UserAuthorityEntity userAuthorityEntity){
+    public void addAuthority(UserAuthorityEntity userAuthorityEntity) {
         this.userAuthorities.add(userAuthorityEntity);
     }
 

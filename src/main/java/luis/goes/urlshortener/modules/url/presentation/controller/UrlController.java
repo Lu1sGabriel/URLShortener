@@ -1,5 +1,6 @@
 package luis.goes.urlshortener.modules.url.presentation.controller;
 
+import luis.goes.urlshortener.core.shared.utils.JwtUtils;
 import luis.goes.urlshortener.modules.url.application.useCase.UrlUseCases;
 import luis.goes.urlshortener.modules.url.presentation.dto.UrlChangeUrlDTO;
 import luis.goes.urlshortener.modules.url.presentation.dto.UrlChangeUrlNameDTO;
@@ -23,12 +24,12 @@ public class UrlController {
 
     @GetMapping
     public ResponseEntity<List<UrlResponseDTO>> getAll() {
-        return ResponseEntity.ok(useCases.getAll().get());
+        return ResponseEntity.ok(useCases.getGetters().getAll());
     }
 
-    @GetMapping(value = "/user/{id}")
-    public ResponseEntity<List<UrlResponseDTO>> getByUserId(@PathVariable UUID id) {
-        return ResponseEntity.ok(useCases.getByUserId().get(id));
+    @GetMapping(value = "/user")
+    public ResponseEntity<List<UrlResponseDTO>> getByUserId() {
+        return ResponseEntity.ok(useCases.getGetters().getByUser(JwtUtils.getSubject()));
     }
 
     @PostMapping

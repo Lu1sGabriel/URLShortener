@@ -1,4 +1,4 @@
-package luis.goes.urlshortener.core.infrastructure.security;
+package luis.goes.urlshortener.core.infrastructure.auth;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;

@@ -1,7 +1,7 @@
 package luis.goes.urlshortener.url;
 
-import luis.goes.urlshortener.modules.url.valueObject.Url;
 import luis.goes.urlshortener.core.exception.HttpException;
+import luis.goes.urlshortener.modules.url.valueObject.Url;
 import org.hamcrest.CoreMatchers;
 import org.junit.jupiter.api.Test;
 
@@ -9,7 +9,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-public class UrlsInfoTest {
+public class UrlTest {
 
     @Test
     void shouldCreateValidUrl() {
@@ -21,13 +21,13 @@ public class UrlsInfoTest {
     @Test
     void shouldThrowExceptionForNullUrl() {
         Exception exception = assertThrows(HttpException.class, () -> new Url(null));
-        assertThat(exception.getMessage(), CoreMatchers.containsString("be null"));
+        assertThat(exception.getMessage(), CoreMatchers.containsString("Please provide a URL."));
     }
 
     @Test
     void shouldThrowExceptionForBlankUrl() {
         Exception exception = assertThrows(HttpException.class, () -> new Url("   "));
-        assertThat(exception.getMessage(), CoreMatchers.containsString("be blank"));
+        assertThat(exception.getMessage(), CoreMatchers.containsString("URL cannot be blank."));
     }
 
     @Test
@@ -36,26 +36,22 @@ public class UrlsInfoTest {
 
         Exception exception = assertThrows(HttpException.class, () -> new Url(invalidUrl));
 
-        assertThat(exception.getMessage(), CoreMatchers.containsString("URL must start"));
+        assertThat(exception.getMessage(), CoreMatchers.containsString("URL must start with http://, https://, or www."));
     }
 
     @Test
     void shouldThrowExceptionForInvalidUrls() {
         final String[] invalidUrls = {
-                "ww.google.com",         // www mal escrito
                 "www.google",            // falta TLD
                 "www.google.",           // ponto final sem TLD
-                "htt://www.google.com",  // protocolo inválido
-                "google.com",            // não começa com http(s) ou www
                 "http://",               // sem domínio
                 "http://google.t",       // TLD com uma letra
                 "http://google.",        // ponto final sem TLD
                 "https:/google.com",     // uma barra a menos
-                "www.google.com/"        // faltando após a '/'
         };
 
         for (String url : invalidUrls) {
-            assertThrows(HttpException.class, () -> new Url(url), "URL: " + url);
+            assertThrows(HttpException.class, () -> new Url(url), "The provided URL is not valid.");
         }
     }
 

@@ -1,8 +1,8 @@
 package luis.goes.urlshortener.modules.login.application.useCases.login;
 
 import luis.goes.urlshortener.core.exception.HttpException;
-import luis.goes.urlshortener.core.infrastructure.security.AuthenticationService;
-import luis.goes.urlshortener.core.infrastructure.security.UserAuthenticated;
+import luis.goes.urlshortener.core.infrastructure.auth.AuthenticationService;
+import luis.goes.urlshortener.core.infrastructure.auth.UserAuthenticated;
 import luis.goes.urlshortener.modules.login.presentation.dto.LoginRequestDTO;
 import luis.goes.urlshortener.modules.login.presentation.dto.LoginResponseDTO;
 import luis.goes.urlshortener.modules.user.domain.UserEntity;
@@ -26,11 +26,14 @@ public class Login implements ILogin {
     public LoginResponseDTO login(LoginRequestDTO dto) {
         UserEntity user = repository
                 .findByUserCredentials_Email_Email(dto.email())
-                .orElseThrow(() -> HttpException.notFound("User not found."));
+                .orElseThrow(() -> HttpException.notFound("User not found with the given email."));
+
         if (user.getDateInfo().getDeletedAt() != null) throw HttpException.badRequest("This user is deactivated. Please contact us to enable it again.");
+
         user.isPasswordMatches(user.getUserCredentials().getPassword().getValue(), dto.password());
 
         UserDetails userDetails = new UserAuthenticated(user);
+
         String token = authenticationService.authenticate(new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities()));
 
         return new LoginResponseDTO(token);

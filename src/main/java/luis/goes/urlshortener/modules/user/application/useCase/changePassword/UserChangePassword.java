@@ -27,8 +27,6 @@ public class UserChangePassword implements IUserChangePassword {
         UserEntity user = repository.findById(id)
                 .orElseThrow(() -> HttpException.notFound("We couldn't find a user with the provided ID."));
 
-        if (user.getDateInfo().getDeletedAt() != null) throw HttpException.badRequest("This user is deactivated.");
-
         user.isPasswordMatches(user.getUserCredentials().getPassword().getValue(), dto.currentPassword());
 
         user.changePassword(dto.password(), dto.confirmPassword());

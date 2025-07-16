@@ -1,4 +1,4 @@
-package luis.goes.urlshortener.core.infrastructure.configuration;
+package luis.goes.urlshortener.core.infrastructure.configuration.password;
 
 import jakarta.annotation.PostConstruct;
 import luis.goes.urlshortener.modules.valueObject.Password;

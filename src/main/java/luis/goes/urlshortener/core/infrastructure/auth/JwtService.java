@@ -1,4 +1,4 @@
-package luis.goes.urlshortener.core.infrastructure.security;
+package luis.goes.urlshortener.core.infrastructure.auth;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
@@ -28,7 +28,7 @@ public class JwtService {
     public String generateToken(Authentication authentication) {
         Object principal = authentication.getPrincipal();
 
-        if (!(principal instanceof UserAuthenticated user)) {
+        if (!(principal instanceof UserAuthenticated)) {
             throw new IllegalArgumentException("Principal must be of type UserAuthenticated");
         }
 
