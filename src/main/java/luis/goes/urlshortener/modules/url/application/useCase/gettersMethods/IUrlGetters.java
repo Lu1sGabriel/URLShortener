@@ -11,6 +11,6 @@ public interface IUrlGetters {
 
     List<UrlResponseDTO> getByUser(UUID userId);
 
-    UrlResponseDTO getByShortenedId(String shortenedId);
+    UrlResponseDTO getByShortened(String userName, String shortenedId);
 
 }

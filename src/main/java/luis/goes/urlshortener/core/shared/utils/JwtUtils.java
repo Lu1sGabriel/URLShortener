@@ -5,9 +5,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.jwt.Jwt;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 public final class JwtUtils {
 
@@ -27,11 +25,17 @@ public final class JwtUtils {
     }
 
     public static List<String> getCurrentPermissions() {
-        String permission = getCurrentJwt().getClaimAsString("permission");
-        return permission == null ? List.of()
-                : Arrays.stream(permission.split(" "))
-                .filter(s -> !s.isBlank())
-                .toList();
+        Object claim = getCurrentJwt().getClaim("permission");
+
+        if (claim instanceof Collection<?> list) {
+            return list.stream()
+                    .filter(Objects::nonNull)
+                    .map(Object::toString)
+                    .toList();
+        }
+
+        return List.of();
     }
+
 
 }

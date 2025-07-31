@@ -44,20 +44,13 @@ public class UrlGetters implements IUrlGetters {
     }
 
     @Override
-    public UrlResponseDTO getByShortenedId(String id) {
-        List<URLEntity> urls = repository.findAll();
+    public UrlResponseDTO getByShortened(String userName, String shortenedId) {
+        String urlBuilt = userName + "/" + shortenedId;
 
-        URLEntity found = urls.stream()
-                .filter(url -> {
-                    String shortened = url.getShortened();
-                    int idx = shortened.lastIndexOf("/");
-                    String extractedId = (idx != -1) ? shortened.substring(idx + 1) : shortened;
-                    return extractedId.equals(id);
-                })
-                .findFirst()
-                .orElseThrow(() -> HttpException.notFound("We couldn't find a URL matching the provided shortened ID."));
+        URLEntity url = repository.findByShortened(urlBuilt)
+                .orElseThrow(() -> HttpException.notFound("We couldn't find the original URL with the provide shortened"));
 
-        return mapper.toDto(found);
+        return mapper.toDto(url);
     }
 
 }

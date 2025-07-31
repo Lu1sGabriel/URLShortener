@@ -22,9 +22,9 @@ public class RedirectorController {
         this.useCases = useCases;
     }
 
-    @GetMapping("/{shortened}")
-    public ResponseEntity<Void> redirectToOriginal(@PathVariable String shortened) {
-        UrlResponseDTO urlResponseDTO = useCases.getGetters().getByShortenedId(shortened);
+    @GetMapping(value = "/{userName}/{shortenedId}")
+    public ResponseEntity<Void> redirectToOriginal(@PathVariable String userName, @PathVariable String shortenedId) {
+        UrlResponseDTO urlResponseDTO = useCases.getGetters().getByShortened(userName, shortenedId);
 
         HttpHeaders headers = new HttpHeaders();
         headers.setLocation(URI.create(urlResponseDTO.url()));

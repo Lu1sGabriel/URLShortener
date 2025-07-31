@@ -61,10 +61,7 @@ public class UserCreate implements IUserCreate {
                 AuthorityUrl.DELETE
         );
 
-        Stream.of(
-                        defaultUrlPermissions,
-                        defaultUserPermissions
-                )
+        Stream.of(defaultUrlPermissions, defaultUserPermissions)
                 .flatMap(Collection::stream)
                 .map(this::findPermissionEntity)
                 .forEach(authorityEntityList::add);
